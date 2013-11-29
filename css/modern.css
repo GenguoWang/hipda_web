@@ -1,0 +1,10 @@
+.ui-btn-corner-all {
+    border-radius: 0;
+}
+.ui-corner-all {
+    border-radius: 0;
+}
+.ui-bar-a, .ui-bar-b, .ui-bar-c, .ui-bar-d, .ui-btn-up-a,.ui-btn-up-b,.ui-btn-up-c,.ui-btn-up-d {
+    background-image:none;
+}
+

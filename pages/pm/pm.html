@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>pm</title>
+    <link href="pm.css" rel="stylesheet" />
+    <script src="/js/hipda.js"></script>
+    <script src="pm.js"></script>
+</head>
+<body>
+    <div class="pm" style="padding-top: 44px; padding-bottom: 33px;" tabindex="0">
+        <div id="divTemplate" style="display: none">
+            <ul>
+                <li id="pmTemplate" class="ui-li ui-btn-up-d">
+                    <div class="post">
+                        <div class="avatar">
+                            <img width="50" height="50" data-win-bind="src:avatar" onerror="this.onerror=null;this.src='/images/noavatar.jpg'" />
+                        </div>
+                        <div class="message">
+                            <div style="color: #999; font-size: 12px; margin-bottom: 5px; overflow: hidden;">
+                                <div data-win-bind="textContent:author" style="float: left; width: 45%"></div>
+                                <div data-win-bind="textContent:postTime" style="float: right; width: 45%;"></div>
+                            </div>
+                            <div data-win-bind="innerHTML:message" class="messageContent" style="margin-top: 10px;">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="ui-header ui-bar-a ui-header-fixed slidedown ui-panel-content-fixed-toolbar ui-panel-animate ui-panel-content-fixed-toolbar-closed" role="banner">
+            <h1 class="ui-title" role="heading" aria-level="1">短消息</h1>
+            <a href="javascript:void(0)" id="cmdNewPM" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" data-wrapperels="span"><span class="ui-btn-inner"><span class="ui-btn-text">写站短</span><span class="ui-icon ui-icon-edit ui-icon-shadow">&nbsp;</span></span></a>
+        </div>
+        <ul id="pmList" class="ui-listview"></ul>
+        <div id="normalFooter" class="ui-footer ui-bar-a ui-footer-fixed ui-panel-content-fixed-toolbar ui-panel-content-fixed-toolbar-position-left" role="contentinfo">
+            <div class="ui-navbar ui-mini" role="navigation">
+                <ul class="ui-grid-c">
+                    <li class="ui-block-a"><a id="navForum" href="javascript:void(0)" class="ui-btn ui-btn-inline ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">板块</span></span></a></li>
+                    <li class="ui-block-b"><a id="navPM" href="javascript:void(0)" class="ui-btn-active ui-btn ui-btn-inline ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">消息</span></span></a></li>
+                    <li class="ui-block-c"><a id="navFavorites" href="javascript:void(0)" class="ui-btn ui-btn-up-a ui-btn-inline"><span class="ui-btn-inner"><span class="ui-btn-text">收藏</span></span></a></li>
+                    <li class="ui-block-d"><a id="navSetting" href="javascript:void(0)" class="ui-btn ui-btn-up-a ui-btn-inline"><span class="ui-btn-inner"><span class="ui-btn-text">设置</span></span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="pmFooter" class="ui-footer ui-bar-a ui-footer-fixed slideup ui-panel-content-fixed-toolbar ui-panel-content-fixed-toolbar-position-left" role="contentinfo">
+            <div style="margin: 3px 0px 1px;" class="ui-field-contain ui-body ui-br">
+                <div id="txtContainer" class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-a">
+                    <textarea style="height: 35px" id="txtReplyPM" name="txtReplyPM" rows="8" cols="40" class="ui-input-text ui-body-c  ui-shadow-inset"></textarea>
+                </div>
+                <a href="javascript:void(0)" id="cmdReplyPM" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-icon-left ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">回复</span><span class="ui-icon ui-icon-check ui-icon-shadow">&nbsp;</span></span></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

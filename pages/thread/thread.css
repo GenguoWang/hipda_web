@@ -1,0 +1,49 @@
+﻿.thread{
+    position:relative;
+}
+.thread #threadSubject {
+    margin-left: 15px; 
+    text-align: left;
+}
+.thread .post {
+    position: relative;
+    text-align: left;
+    padding: 5px;
+    min-height: 200px;
+    margin: 2px 5px 2px 5px; 
+    min-height: 120px; 
+    overflow: hidden
+}
+.thread .post .message h1 {
+    font-size:1em;
+    font-weight:bold;
+}
+.thread .post .message h1 a{
+    display:none;
+}
+    .thread .post .avatar {
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+        top:0px;
+        position: absolute;
+    }
+    .thread .post .info{
+        margin: 5px 5px 25px 70px;
+        min-height:50px;
+        font-size:12px;
+    }
+    .thread .post .message {
+        margin: 5px 5px 25px 5px;
+    }
+    
+    .thread .post table {
+        table-layout:fixed;
+        width:100%;
+    }
+.thread #pageInfo {
+    position:absolute;
+    left:16px;
+    bottom:3px;
+    font-size:0.7em;
+}

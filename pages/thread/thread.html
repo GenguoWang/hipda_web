@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>thread</title>
+    <link href="/pages/thread/thread.css" rel="stylesheet" />
+    <script src="/js/hipda.js"></script>
+    <script src="/pages/thread/thread.js"></script>
+</head>
+<body>
+    <div class="thread" style="padding-top: 44px;" tabindex="0">
+        <!--template area-->
+        <div id="divTemplate" style="display: none">
+            <ul>
+                <li id="postTemplate" class="ui-li ui-btn-up-d">
+                    <div class="post">
+                        <a data-win-bind="name:num"></a>
+                        <div class="head">
+                            <div class="avatar">
+                                <img width="50" height="50" data-win-bind="src:avatar" onerror="this.onerror=null;this.src='/images/noavatar.jpg'" />
+                            </div>
+                            <div class="info">
+                                <div style="font-size: 12px; margin-bottom: 5px;">
+                                    <span data-win-bind="textContent:author">ciceblue</span> 发表于 <span data-win-bind="textContent:postTime">2013-11-20 10:33</span>
+                                    <div style="float: right; font: 13px/1.6em Verdana,Helvetica,Arial,sans-serif; font-style: normal;"><em data-win-bind="textContent:num">1</em><sup>#</sup></div>
+                                </div>
+                                <div>
+                                    注册时 <span  data-win-bind="textContent:regTime">2010-7-31</span>
+                                    积分 <span  data-win-bind="textContent:point">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message">
+                            <div style="font-weight: normal; margin-top: 10px;" data-win-bind="innerHTML:message">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div id="pageTemplate" data-win-bind="id:pageId">
+                <div data-win-bind="className:pagelabel,pageNum:pageNum"></div>
+                <ul class="postList ui-listview"></ul>
+            </div>
+        </div>
+
+        <!--dialog-->
+        <div id="dial" style="display: none" class="popup-container" tabindex="0">
+            <div class="ui-popup ui-body-d ui-overlay-shadow ui-corner-all">
+                <ul style="min-width: 210px;" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+                    <li id="dialogTitle" class="ui-li ui-li-static ui-btn-up-e ui-first-child">请选择</li>
+                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d">
+                        <div class="ui-btn-inner ui-li">
+                            <div class="ui-btn-text"><a id="cmdReplyPost" href="javascript:void(0)" class="ui-link-inherit">回复</a></div>
+                            <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
+                        </div>
+                    </li>
+                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d">
+                        <div class="ui-btn-inner ui-li">
+                            <div class="ui-btn-text"><a  id="cmdQuotePost" href="javascript:void(0)" class="ui-link-inherit">引用</a></div>
+                            <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
+                        </div>
+                    </li>
+                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d">
+                        <div class="ui-btn-inner ui-li">
+                            <div class="ui-btn-text"><a id="cmdPMAuthor" href="javascript:void(0)" class="ui-link-inherit">PM作者</a></div>
+                            <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="ui-header ui-bar-a ui-header-fixed slidedown ui-panel-content-fixed-toolbar ui-panel-animate ui-panel-content-fixed-toolbar-closed" role="banner">
+            <h1 class="ui-title" role="heading" aria-level="1" id="threadSubject"></h1>
+            <div id="pageInfo"></div>
+            <a href="javascript:void(0)" id="btnReply" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" data-wrapperels="span"><span class="ui-btn-inner"><span class="ui-btn-text">回复</span><span class="ui-icon ui-icon-edit ui-icon-shadow">&nbsp;</span></span></a>
+        </div>
+        <div id="pageList"></div>
+    </div>
+</body>
+</html>

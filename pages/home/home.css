@@ -1,0 +1,15 @@
+﻿.homepage {
+	position: relative;
+}
+.homepage #pageHistory {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+.homepage #pageInfo {
+    position:absolute;
+    left:65%;
+    bottom:3px;
+    font-size:0.7em;
+}
+

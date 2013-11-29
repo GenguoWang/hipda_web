@@ -1,0 +1,105 @@
+﻿(function (window) {
+    "use strict";
+    function HttpHandle(worker) {
+        this.httpGet = function (url) {
+            var p = new KingoJS.Promise();
+            var callbackName = KingoJS.genName();
+            window.callbacks[callbackName] = function (res) {
+                try {
+                    p.resolve(res);
+                } catch (e) {
+                    KingoJS.log && KingoJS.log(e.message);
+                }
+            }
+            var args = ["HttpGet", callbackName, url];
+            window.external.notify(JSON.stringify(args));
+            return p;
+        }
+        this.httpPost = function (url, ps) {
+            var p = new KingoJS.Promise();
+            var callbackName = KingoJS.genName();
+            window.callbacks[callbackName] = function (res) {
+                p.resolve(res);
+            }
+            var args = ["HttpPost", callbackName, url, JSON.stringify(ps)];
+            window.external.notify(JSON.stringify(args));
+            return p;
+        }
+        this.httpPostFile = function (url, ps, filename, filetype, fieldname, buffer) {
+            var p = new KingoJS.Promise();
+            var callbackName = KingoJS.genName();
+            window.callbacks[callbackName] = function (res) {
+                p.resolve(res);
+            }
+            var args = ["HttpPostFile", callbackName, url, JSON.stringify(ps), filename, filetype, fieldname];
+            window.external.notify(JSON.stringify(args));
+            return p;
+        }
+    }
+    window.HttpHandle = HttpHandle;
+    window.Helper = {
+        getFile: function (remoteLocation) {
+            var p = new KingoJS.Promise();
+            var callbackName = KingoJS.genName();
+            window.callbacks[callbackName] = function (res) {
+                p.resolve(res);
+            }
+            var args = ["LoadPage", callbackName, remoteLocation];
+            window.external.notify(JSON.stringify(args));
+            return p;
+        },
+        isTrial: function () {
+            var p = new KingoJS.Promise();
+            var callbackName = KingoJS.genName();
+            window.callbacks[callbackName] = function (res) {
+                p.resolve(res);
+            }
+            var args = ["IsTrial", callbackName];
+            window.external.notify(JSON.stringify(args));
+            return p;
+        },
+        buy: function () {
+            var args = ["Buy"];
+            window.external.notify(JSON.stringify(args));
+        },
+        takePhoto: function () {
+            var p = new KingoJS.Promise();
+            var callbackName = KingoJS.genName();
+            window.callbacks[callbackName] = function (res) {
+                p.resolve(res);
+            }
+            var args = ["TakePhoto", callbackName];
+            window.external.notify(JSON.stringify(args));
+            return p;
+        },
+        choosePhoto: function (uid) {
+            var p = new KingoJS.Promise();
+            var callbackName = KingoJS.genName();
+            window.callbacks[callbackName] = function (res) {
+                p.resolve(res);
+            }
+            var args = ["ChoosePhoto", callbackName];
+            window.external.notify(JSON.stringify(args));
+            return p;
+        },
+        gotoDetail: function (detail) {
+            var args = ["GotoDetail", JSON.stringify({Options:Options,detail:detail})];
+            window.external.notify(JSON.stringify(args));
+        },
+        gotoUrl: function (url) {
+            var args = ["GotoUrl", url];
+            window.external.notify(JSON.stringify(args));
+        }
+    }
+    window.callbacks = {}
+    window.handleInvoke = function (method, res) {
+        if (window.callbacks[method]) {
+            var ret = window.callbacks[method](res);
+            delete window.callbacks[method];
+            return ret;
+        }
+        else {
+            return null;
+        }
+    }
+})(window);

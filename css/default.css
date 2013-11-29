@@ -1,0 +1,114 @@
+.icon-pen {
+    background: url("appbar.draw.pencil.reflection.png");
+    background-size: 100% 100%;
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: auto;
+}
+
+.popup-screen {
+    background-image: url(data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    position: fixed;
+    opacity: .5;
+    opacity: 0;
+    z-index: 1099;
+}
+
+.popup-container {
+    z-index: 1100;
+    position: fixed;
+}
+
+.icon-nav {
+    background: url("appbar.chevron.right.png");
+    background-size: 100% 100%;
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: auto;
+}
+
+.menu-icon {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    background-color: rgba(32,32,32,0.8);
+}
+
+    .menu-icon .icon {
+        background: url("appbar.arrow.up.png");
+        background-size: 100% 100%;
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+    }
+
+.menu-icon-showed {
+    position: fixed;
+    right: 10px;
+    bottom: 70px;
+    background-color: rgba(32,32,32,0.8);
+}
+
+    .menu-icon-showed .icon {
+        background: url("appbar.arrow.down.png");
+        background-size: 100% 100%;
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+    }
+
+.menu {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background-color: #202020;
+    height: 60px;
+    z-index: 3;
+}
+
+.local-menu {
+    float: right;
+    margin: 5px;
+    width: 50px;
+    text-align: center;
+}
+
+    .local-menu:hover {
+        background-color: #404040;
+    }
+
+.global-menu {
+    float: left;
+    margin: 5px;
+    width: 50px;
+    text-align: center;
+}
+
+    .global-menu:hover {
+        background-color: #404040;
+    }
+
+
+.icon-camera {
+    background: rgba(0,0,0,.4);
+    background-image: url("images/appbar.camera.png");
+    background-size: 24px;
+    background-position: -3px;
+    background-repeat: no-repeat;
+}
+
+.icon-photo {
+    background: rgba(0,0,0,.4);
+    background-image: url("images/icon-panorama.png");
+    background-size: 14px;
+    background-position: 2px;
+    background-repeat: no-repeat;
+}
+
+

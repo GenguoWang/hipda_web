@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>homePage</title>
+    <script src="home.js"></script>
+    <link rel="stylesheet" type="text/css" href="home.css" />
+    <link rel="stylesheet" type="text/css" href="/css/default.css" />
+</head>
+<body>
+    <div class="homepage" tabindex="0">
+        <!--template part-->
+        <div id="divTemplate" style="display: none">
+            <ul>
+                <li id="threadTemplate" class="ui-li ui-btn-up-d">
+                    <div class="thread" style="position: relative; min-height: 80px; overflow: hidden">
+                        <div style="position: absolute; top: 10px; left: 15px;">
+                            <img width="60" height="60" data-win-bind="src:avatar" onerror="this.onerror=null;this.src='/images/noavatar.jpg'" />
+                        </div>
+                        <div style="padding-left: 95px; margin-top: 10px; margin-right: 10px;">
+                            <div style="color: #999; font-size: 12px">
+                                <div data-win-bind="textContent:author" style="float: left; width: 30%"></div>
+                                <div style="float: left; width: 30%; text-align: center">
+                                    <span data-win-bind="textContent:replyNum" style="font-weight: bold"></span>/<span data-win-bind="textContent:viewNum"></span>
+                                </div>
+                                <div data-win-bind="textContent:postTime" style="float: left; width: 40%; text-align: right"></div>
+                            </div>
+                            <div data-win-bind="textContent:subject" style="clear: both;margin-bottom:5px;"></div>
+                        </div>
+                    </div>
+                </li>
+                <li id="forumItemTemplate" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c">
+                    <div class="ui-btn-inner ui-li">
+                        <div class="ui-btn-text"><a href="javascript:void(0)" class="ui-link-inherit" data-win-bind="textContent:title"></a></div>
+                        <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
+                    </div>
+                </li>
+            </ul>
+            <div id="pageTemplate" data-win-bind="id:pageId">
+                <div data-win-bind="className:pagelabel,pageNum:pageNum"></div>
+                <ul class="threadList ui-listview"></ul>
+            </div>
+        </div>
+
+        <!--display part-->
+        <div id="forumPanel" class="ui-panel ui-panel-position-left ui-panel-display-reveal ui-body-c ui-panel-animate ui-panel-closed">
+            <ul id="forumUl" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+            </ul>
+        </div>
+        <div id="panelWrapper" style="padding-top: 44px; padding-bottom: 33px" class="ui-panel-content-wrap ui-panel-content-wrap-position-left ui-panel-content-wrap-display-reveal">
+            <div class="ui-header ui-bar-a ui-header-fixed slidedown ui-panel-content-fixed-toolbar ui-panel-content-fixed-toolbar-position-left" role="banner">
+                <a href="javascript:void(0)" id="cmdPanel" class="ui-btn-left ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" data-theme="a"><span class="ui-btn-inner"><span class="ui-btn-text">版面</span><span class="ui-icon ui-icon-bars ui-icon-shadow">&nbsp;</span></span></a>
+                <h1 class="ui-title" role="heading" aria-level="1" id="forumTitle">Discovery</h1>
+                <div id="pageInfo"></div>
+                <a href="javascript:void(0)" id="cmdNewThread" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" data-wrapperels="span"><span class="ui-btn-inner"><span class="ui-btn-text">新帖</span><span class="ui-icon ui-icon-edit ui-icon-shadow">&nbsp;</span></span></a>
+            </div>
+            <div id="pageHistory">
+                <div id="pageList"></div>
+            </div>
+            <div class="ui-footer ui-bar-a ui-footer-fixed ui-panel-content-fixed-toolbar ui-panel-content-fixed-toolbar-position-left" role="contentinfo">
+                <div class="ui-navbar ui-mini" role="navigation">
+                    <ul class="ui-grid-c">
+                        <li class="ui-block-a"><a id="navForum" href="javascript:void(0)" class="ui-btn-active ui-btn ui-btn-inline ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">板块</span></span></a></li>
+                        <li class="ui-block-b"><a id="navPM" href="javascript:void(0)" class="ui-btn ui-btn-inline ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">消息</span></span></a></li>
+                        <li class="ui-block-c"><a id="navFavorites" href="javascript:void(0)" class="ui-btn ui-btn-up-a ui-btn-inline"><span class="ui-btn-inner"><span class="ui-btn-text">收藏</span></span></a></li>
+                        <li class="ui-block-d"><a id="navSetting" href="javascript:void(0)" class="ui-btn ui-btn-up-a ui-btn-inline"><span class="ui-btn-inner"><span class="ui-btn-text">设置</span></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>login</title>
+    <link href="login.css" rel="stylesheet" />
+    <script src="login.js"></script>
+</head>
+<body>
+    <div class="login" style="padding-top:44px;margin:5px;"  tabindex="0">
+        <div class="ui-header ui-bar-a ui-header-fixed slidedown ui-panel-content-fixed-toolbar ui-panel-content-fixed-toolbar-position-left" role="banner">
+            <h1 class="ui-title" role="heading" aria-level="1">登录</h1>
+        </div>
+        <div>
+            <label for="text-basic" class="ui-input-text">用户名:</label>
+            <div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c">
+                <input type="text" name="username" id="txtUsername" value="" class="ui-input-text ui-body-c" />
+            </div>
+        </div>
+        <div>
+            <label for="text-basic" class="ui-input-text">密码：</label>
+            <div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c">
+                <input type="password" name="password" id="txtPassword" value="" class="ui-input-text ui-body-c" />
+            </div>
+        </div>
+        <button  id="btnLogin" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text">登录</span></span></button>
+        <button  onclick="Helper.gotoUrl('http://www.hi-pda.com/forum/register.php')" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text">注册</span></span></button>
+    </div>
+</body>
+</html>

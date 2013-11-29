@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>newThread</title>
+    <link href="newThread.css" rel="stylesheet" />
+    <script src="newThread.js"></script>
+</head>
+<body>
+    <div class="newThread" style="padding-top: 44px;"  tabindex="0">
+        <div class="ui-header ui-bar-a ui-header-fixed slidedown ui-panel-content-fixed-toolbar ui-panel-animate ui-panel-content-fixed-toolbar-closed" role="banner">
+            <h1 class="ui-title" role="heading" aria-level="1" id="newPostTitle">发新帖</h1>
+        </div>
+        <div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c">
+            <input type="text" name="subject" id="txtSubject" value="" class="ui-input-text ui-body-c" placeholder="标题" />
+        </div>
+        <textarea style="height: auto;" name="message" id="txtMessage" rows="8" cols="40" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset"></textarea>
+        <div style="text-align: center" class="ui-corner-all ui-controlgroup ui-controlgroup-horizontal ui-mini" aria-disabled="false" data-exclude-invisible="true" data-init-selector=":jqmData(role='controlgroup')">
+            <div class="ui-controlgroup-controls">
+                <a href="javascript:void(0)" id="btnNewThread" title="Add" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-notext ui-first-child ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text">Add</span><span class="ui-icon ui-icon-check ui-icon-shadow">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" id="btnCancelNewThread" title="Delete" class="ui-btn ui-btn-up-b ui-shadow ui-btn-corner-all ui-btn-icon-notext"><span class="ui-btn-inner"><span class="ui-btn-text">Delete</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" id="btnTakePhoto" title="More" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-notext ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text">More</span><span class="ui-icon icon-camera ui-icon-shadow">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" id="btnChoosePhoto" title="More" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-notext ui-last-child ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text">More</span><span class="ui-icon icon-photo ui-icon-shadow">&nbsp;</span></span></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
