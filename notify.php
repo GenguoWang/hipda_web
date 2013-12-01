@@ -7,13 +7,25 @@
     $output = curl_exec($ch) ;  
     echo iconv('GB2312','UTF-8',$output);
     */
-    $cookieName = "/tmp/".$_POST["cookie"];
     $args = $_POST["args"];
     $args = json_decode($args,true);
     $ch = curl_init() ;  
     $ch = curl_init() ;  
-    curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieName);  
-    curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieName); 
+    if(isset($_POST["cookiestr"])){
+        $header[]= 'Cookie: '.$_POST["cookiestr"];
+        $header[]= 'User-Agent: '.$_POST["agent"]; 
+        curl_setopt($ch,CURLOPT_HTTPHEADER,$header);   
+    }
+    else if(isset($_POST["cookie"])){
+        $cookieName = $_POST["cookie"];
+        if(!preg_match('/^(?:[a-z0-9_-]|\.(?!\.))+$/iD', $cookieName)){
+            echo $cookieName;
+            die("bad file");
+        }
+        $cookieName = "/tmp/".$cookieName;
+        curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieName);  
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieName); 
+    }
     if($args[0] == "HttpPost")
     {
         $url = $args[2];
@@ -44,9 +56,9 @@
     else if($args[0]=="LoadPage")
     {
         $path = $args[2];
-        if(!preg_match('/^(?:[a-z0-9_-]|\.(?!\.))+$/iD', $path)){
-            //echo $path;
-            //die("bad file");
+        if(!preg_match('#pages/\w+/\w+\.\w+#', $path)){
+            echo $path;
+            die("bad file");
         }
         echo file_get_contents($path);
     }

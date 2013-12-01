@@ -11,7 +11,11 @@
         get backX() { return localStorage["backX"]; },
         set backY(value) { localStorage["backY"] = value; },
         get backY() { return localStorage["backY"]; },
-		domain:"/hipda"
+        set cookiestr(value) { localStorage["cookiestr"] = value; },
+        get cookiestr() { return localStorage["cookiestr"]; },
+        set agent(value) { localStorage["agent"] = value; },
+        get agent() { return localStorage["agent"]; },
+		domain:"/hipda_dev"
     };
     try{
         var argList = null;
@@ -37,6 +41,17 @@
             nav.navigate("/pages/home/home.html", { forumId: HiPDA.defaultForumId });
         });
     }
+    function loginStr(){
+        HiPDA.testIsLogin().then(function (res) {
+            if (res != "success") {
+                nav.navigate("/pages/login/login.html");
+                return;
+            }
+            Options.isLogin = true;
+            HiPDA.getForums();
+            nav.navigate("/pages/home/home.html", { forumId: HiPDA.defaultForumId });
+        });
+    }
     function log(msg){
         var node = document.getElementById("msg");
         node.innerHTML += msg + "<br/>";
@@ -45,6 +60,7 @@
     function initGBack(){
         var flag = false;
         var timer = null;
+        var timer1 = null;
         var startX;
         var startY;
         var node = document.getElementById("gback");
@@ -64,15 +80,27 @@
                 startY = parseInt(style.top)-e.clientY;
                 document.addEventListener("mousemove",move,false);
                 document.addEventListener("mouseup",end,false);
-                document.addEventListener("touchmove",move,false);
+            },500);
+        }
+        function touchstart(e){
+            node.classList.add("begindown");
+            e.preventDefault();
+            timer1 = setTimeout(function(){
+                node.classList.add("beginmove");
+                flag = true;
+                var style = getComputedStyle(node);
+                startX = parseInt(style.left)-e.touches[0].clientX;
+                startY = parseInt(style.top)-e.touches[0].clientY;
+                document.addEventListener("touchmove",touchmove,false);
                 document.addEventListener("touchend",end,false);
             },500);
         }
         function end(e){
             document.removeEventListener("mousemove",move);
             document.removeEventListener("mouseup",end);
-            document.removeEventListener("touchmove",move);
+            document.removeEventListener("touchmove",touchmove);
             document.removeEventListener("touchend",end);
+            if(e.type=="touchend") flag = false;
             node.classList.remove("beginmove");
             node.classList.remove("begindown");
         }
@@ -84,24 +112,40 @@
                 node.style.top = Options.backY+"px";
             }
         }
+        function touchmove(e){
+            if(flag){
+                e.preventDefault();
+                Options.backX = e.touches[0].clientX+startX;
+                Options.backY = e.touches[0].clientY+startY;
+                node.style.left = Options.backX+"px";
+                node.style.top = Options.backY+"px";
+            }
+        }
         function endtimer(){
             if(timer) clearTimeout(timer);
             timer = null;
             node.classList.remove("beginmove");
             node.classList.remove("begindown");
         }
+        function touchendtimer(){
+            if(timer1) clearTimeout(timer1);
+            timer1 = null;
+            node.classList.remove("beginmove");
+            node.classList.remove("begindown");
+            if(!flag)navHandle("back");
+        }
         node.addEventListener("click",function(){
             if(!flag)navHandle("back");
             flag = false;
         },false);
         node.addEventListener("mousedown",start,false);
-        node.addEventListener("touchstart",start,false);
+        node.addEventListener("touchstart",touchstart,false);
 
         node.addEventListener("mouseup",endtimer,false);
-        node.addEventListener("touchend",endtimer,false);
+        node.addEventListener("touchend",touchendtimer,false);
 
         node.addEventListener("mouseout",endtimer,false);
-        node.addEventListener("touchout",endtimer,false);
+        node.addEventListener("touchcancel",touchendtimer,false);
 
         //node.addEventListener("mousemove",move,false);
         //node.addEventListener("touchmove",move,false);
@@ -126,7 +170,10 @@
         } else {
             var password = localStorage.getItem("password");
             var username = localStorage.getItem("username");
-            if (password && username) {
+            if(Options.cookiestr){
+                loginStr();
+            }
+            else if (password && username) {
                 login(username, password, false);
             } else {
                 nav.navigate("/pages/login/login.html");

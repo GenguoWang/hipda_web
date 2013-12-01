@@ -24,7 +24,7 @@
         this.forum = null;
         this.defaultForumId = "2";
         this.defaultTitle = "Discovery";
-        this.tailMessage = "WP8客户端";
+        this.tailMessage = "Web客户端";
         this.tailFormat = "    [size=1][color=#48d1cc][b]%s[/b][/color][/size]";
         function makeUrl(url) {
             url = url.trim();
@@ -55,6 +55,20 @@
                     return "success";
                 } else {
                     return resXml.getElementsByTagName("root")[0].textContent;
+                }
+            });
+        }
+        this.testIsLogin = function(){
+            return httpClient.httpGet(baseUrl).then(function(res){
+                if(res.indexOf("欢迎回来") !== -1){
+                    var doc = document.implementation.createHTMLDocument("example");
+                    doc.documentElement.innerHTML = res;
+                    HiPDA.username = doc.querySelector("#header cite a").textContent;
+                    HiPDA.log("login");
+                    return "success";
+                }
+                else{
+                    return "error";
                 }
             });
         }

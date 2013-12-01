@@ -50,8 +50,13 @@
         }
         xmlhttp.open("POST","http://blog.hifiwiki.net/hipda/notify.php",true);
         xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-        if(!Options.cookie) Options.cookie = new Date().valueOf()+""+Math.round((Math.random(10000)*10000));
-        xmlhttp.send("args="+encodeURIComponent(args)+"&cookie="+Options.cookie);
+        var senddata = "args="+encodeURIComponent(args);
+        if(Options.cookiestr) senddata += "&cookiestr="+encodeURIComponent(Options.cookiestr)+"&agent="+encodeURIComponent(Options.agent);
+        else{
+            if(!Options.cookie) Options.cookie = new Date().valueOf()+""+Math.round((Math.random(10000)*10000));
+            senddata += "&cookie="+Options.cookie;
+        }
+        xmlhttp.send(senddata);
     }
     window.Helper = {
     	getFile:function(remoteLocation){

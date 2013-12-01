@@ -4,6 +4,7 @@
     var pageDict = {}
     var domDict = {}
     function makeUrl(domain, root, url) {
+        domian = gDomain;
         root = root.substr(0, root.lastIndexOf("/") + 1);
         if (url[0] == "/") {
             return domain + url;
@@ -368,19 +369,22 @@
                 this.handler = handler;
                 element.addEventListener("mousedown", this, false);
                 element.addEventListener("mouseup", this, false);
+                element.addEventListener("touchstart", this, false);
+                element.addEventListener("touchend", this, false);
             },
                 {
                     handleEvent: function (e) {
                         switch (e.type) {
                             case 'mousedown': this.onMousedown(e); break;
                             case 'mouseup': this.onMouseup(e); break;
+                            case 'touchstart': this.onTouchstart(e); break;
+                            case 'touchend': this.onTouchend(e); break;
                         }
                     },
                     onMousedown: function (e) {
                         this.startX = e.clientX;
                         this.startY = e.clientY;
                         this.startT = new Date().valueOf();
-                        console.log("md " + e.clientX + ' ' + e.clientY);
                     },
                     onMouseup: function (e) {
                         var eX = e.clientX;
@@ -390,7 +394,21 @@
                             KingoJS.EventHelper.preventClick(eX, eY);
                             this.handler(e);
                         }
-                        console.log("mp " + e.clientX + ' ' + e.clientY);
+                    },
+                    onTouchstart: function (e){
+                        this.startT = new Date().valueOf();
+                        this.startX = e.touches[0].clientX;
+                        this.startY = e.touches[0].clientY;
+                    },
+                    onTouchend: function (e){
+                        var eT = new Date().valueOf();
+                        var eX = e.changedTouches[0].clientX;
+                        var eY = e.changedTouches[0].clientY;
+                        if (this.startT && this.startX && this.startY && eT - this.startT > 500 && (eX - this.startX) * (eX - this.startX) + (eY - this.startY) * (eY - this.startY) < 20) {
+                            e.preventDefault();
+                            KingoJS.EventHelper.preventClick(eX, eY);
+                            this.handler(e);
+                        }
                     }
                 }
             ),

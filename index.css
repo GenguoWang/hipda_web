@@ -45,7 +45,7 @@ body {
     touch-action:none;
 }
 .begindown{
-    border:1px solid gray;
+	opacity:0.5;
 }
 .beginmove{
     transform: scale(0.95,0.95);
