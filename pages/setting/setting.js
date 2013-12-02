@@ -18,6 +18,9 @@
     function buy() {
         Helper.buy();
     }
+    function donate() {
+        Helper.gotoUrl("https://me.alipay.com/ciceblue");
+    }
     function change() {
         var node = document.getElementById("cssModern");
         if (node) {
@@ -42,16 +45,32 @@
             document.getElementById("stickthreadText").textContent = "隐藏置顶帖";
         }
     }
+    function sort(){
+        if (Options.sort == "dateline") {
+            Options.sort = "lastpost";
+            document.getElementById("sortText").textContent = "按发帖时间排序";
+        } else {
+            Options.sort = "dateline";
+            document.getElementById("sortText").textContent = "按最后回复排序";
+        }
+    }
     KingoJS.Page.define("/pages/setting/setting.html", {
         ready: function (element, options) {
             document.getElementById("logout").addEventListener("click", logout, false);
             document.getElementById("buy").addEventListener("click", buy, false);
+            document.getElementById("donate").addEventListener("click", donate, false);
             document.getElementById("change").addEventListener("click", change, false);
             document.getElementById("stickthread").addEventListener("click", stickthread, false);
+            document.getElementById("sort").addEventListener("click", sort, false);
             if (Options.stickthread == "true") {
                 document.getElementById("stickthreadText").textContent = "隐藏置顶帖";
             } else {
                 document.getElementById("stickthreadText").textContent = "显示置顶帖";
+            }
+            if (Options.sort == "dateline") {
+                document.getElementById("sortText").textContent = "按最后回复排序";
+            } else {
+                document.getElementById("sortText").textContent = "按发帖时间排序";
             }
             initNavbar();
                 if (Options.isTrial === undefined) {

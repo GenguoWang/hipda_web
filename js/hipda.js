@@ -25,7 +25,7 @@
         this.defaultForumId = "2";
         this.defaultTitle = "Discovery";
         this.tailMessage = "Web客户端";
-        this.tailFormat = "    [size=1][color=#48d1cc][b]%s[/b][/color][/size]";
+        this.tailFormat = "    [size=1][color=#48d1cc][b][url=http://www.hi-pda.com/forum/viewthread.php?tid=1308131]%s[/url][/b][/color][/size]";
         function makeUrl(url) {
             url = url.trim();
             if (url.indexOf("http") === 0) return url;
@@ -40,7 +40,7 @@
             if (!message) message = "";
             ps.push({ Key: "name", Value: HiPDA.username });
             ps.push({ Key: "event", Value: event });
-            ps.push({ Key: "message", Value: "Web:"+message });
+            ps.push({ Key: "message", Value: "Web dev:"+message });
             return httpClient.httpPost(logUrl, ps);
         }
         this.login = function (username, password) {
@@ -102,23 +102,24 @@
                 KingoJS.log && KingoJS.log(e.message);
             }
         }
-        this.getForum = function (fid, page) {
-            return httpClient.httpGet(forumUrl + "?fid=" + fid + "&page=" + page + "&seed" + Math.random()).then(function (res) {
+        this.getForum = function (fid, page,sort) {
+            if(!sort) sort = "lastpost";
+            return httpClient.httpGet(forumUrl + "?fid=" + fid + "&orderby="+sort+"&page=" + page + "&seed=" + Math.random()).then(function (res) {
                 var doc = document.implementation.createHTMLDocument("doc");
                 doc.documentElement.innerHTML = res;
                 HiPDA.uid = doc.querySelector("#header cite a").getAttribute("href").split("=")[1];
                 HiPDA.username = doc.querySelector("#header cite a").textContent;
-                HiPDA.formhash = doc.getElementById("umenu").children[7].getAttribute("href").split("=")[2];
+                HiPDA.formhash = doc.getElementById("umenu").children[7].getAttribute("href").match(/formhash=(\w*)/)[1].trim();
                 return doc;
             });
         }
         this.getThread = function (tid, page) {
-            return httpClient.httpGet(threadUrl + "?tid=" + tid + "&page=" + page + "&seed" + Math.random()).then(function (res) {
+            return httpClient.httpGet(threadUrl + "?tid=" + tid + "&page=" + page + "&seed=" + Math.random()).then(function (res) {
                 var doc = document.implementation.createHTMLDocument("doc");
                 doc.documentElement.innerHTML = res;
                 HiPDA.uid = doc.querySelector("#header cite a").getAttribute("href").split("=")[1];
                 HiPDA.username = doc.querySelector("#header cite a").textContent;
-                HiPDA.formhash = doc.getElementById("umenu").children[7].getAttribute("href").split("=")[2];
+                HiPDA.formhash = doc.getElementById("umenu").children[7].getAttribute("href").match(/formhash=(\w*)/)[1].trim();
                 return doc;
             });
         }
@@ -145,7 +146,7 @@
                     doc.documentElement.innerHTML = res;
                     HiPDA.uid = doc.querySelector("#header cite a").getAttribute("href").split("=")[1];
                     HiPDA.username = doc.querySelector("#header cite a").textContent;
-                    HiPDA.formhash = doc.getElementById("umenu").children[7].getAttribute("href").split("=")[2];
+                    HiPDA.formhash = doc.getElementById("umenu").children[7].getAttribute("href").match(/formhash=(\w*)/)[1].trim();
                     var list = doc.querySelectorAll("#list_forumoptions tr");
                     var len = list.length;
                     for (var i = 1; i < len; ++i) {
@@ -275,8 +276,8 @@
                 return data;
             });
         }
-        this.getThreadsFromForum = function (fid, page) {
-            return this.getForum(fid, page).then(function (res) {
+        this.getThreadsFromForum = function (fid, page,sort) {
+            return this.getForum(fid, page,sort).then(function (res) {
                 var data = {};
                 data.uid = -1;
                 data.normalthread = [];
@@ -299,7 +300,7 @@
                             thread.id = tbody[i].id.trim().split("_")[1];
                             var nodes = tbody[i].getElementsByTagName("tr")[0];
                             thread.subject = nodes.children[2].getElementsByTagName("span")[0].textContent;
-                            var regex = /^[\s\S]*uid=(\d*)">(.*)<\/a>[\s\S]*<em>(\S*)<\/em>[\s\S]*$/m
+                            var regex = /^[\s\S]*uid=(\d*).*">(.*)<\/a>[\s\S]*<em>(\S*)<\/em>[\s\S]*$/m
                             var author = nodes.children[3].innerHTML.trim().match(regex);
                             if (author) {
                                 thread.uid = author[1];
@@ -447,6 +448,17 @@
                     return "success";
                 } else {
                     return new DOMParser().parseFromString(res, "text/xml").getElementsByTagName("root")[0].textContent.replace(/<script[\s\S\n]*script>/g, "");
+                }
+            });
+        }
+        this.addToFav = function(tid){
+            var url = baseUrl + "my.php?item=favorites&tid="+tid+"&inajax=1&ajaxtarget=favorite_msg";
+            return httpClient.httpGet(url).then(function(res){
+                if(res.indexOf("成功")!==-1){
+                    return "success";
+                }
+                else{
+                    return "failed";
                 }
             });
         }

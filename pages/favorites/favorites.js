@@ -12,6 +12,7 @@
     KingoJS.Page.define("/pages/favorites/favorites.html", {
         ready: function (element, options) {
             HiPDA.getThreadsFromFavorites().then(function (data) {
+                document.getElementById("loadingIcon").style.display = "none";
                 var tmp = new KingoJS.Template("#threadItemTemplate");
                 var list = document.getElementById("threadList");
                 data.forEach(function (item) {

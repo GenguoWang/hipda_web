@@ -52,6 +52,7 @@
                 document.getElementById("cmdQuotePost").addEventListener("click", onQuote, false);
                 document.getElementById("cmdReplyPost").addEventListener("click", onReply, false);
                 document.getElementById("cmdPMAuthor").addEventListener("click", onPMAuthor, false);
+                document.getElementById("cmdAddToFav").addEventListener("click", onAddToFav, false);
             }
         },
         unload: function () {
@@ -61,6 +62,10 @@
             mPageDict = {};
         }
     });
+    function onAddToFav(){
+        HiPDA.addToFav(mCurThread.id);
+        mMenuDialog.hide();
+    }
     function onQuote() {
         HiPDA.getQuote(mCurThread.id, mCurPost.id).then(function (res) {
             mQuote = res;
@@ -151,6 +156,9 @@
     }
     
     function renderPage(res, pageNum,isBefore) {
+        if(pageNum == mTotalPage){
+            document.getElementById("loadingIcon").style.display = "none";
+        }
         var pageTmp = new KingoJS.Template("#pageTemplate");
         var pageList = document.getElementById("pageList");
         pageTmp.render({ pagelabel: "pagelabel", pageNum: pageNum,pageId:"page"+pageNum }).then(function (page) {

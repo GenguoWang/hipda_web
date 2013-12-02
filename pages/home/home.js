@@ -12,6 +12,7 @@
     var mPageDict;
     var mPrefetch;
     var mImageAttach;
+    var mSort;
     var nav = KingoJS.Navigation;
     var gPreNum = 1;
     var gHistoryDict = null;
@@ -126,7 +127,7 @@
     }
     KingoJS.Page.define("/pages/home/home.html", {
         ready: function (element, options, isBack) {
-
+            mSort = Options.sort;
             if (options === undefined || options.forumId === undefined) {
                 options = { forumId: HiPDA.defaultForumId, title: HiPDA.defaultTitle };
             }
@@ -144,7 +145,7 @@
                 mEndPage = mCurPage;
                 mPageDict = {};
                 mQueue = [];
-                HiPDA.getThreadsFromForum(mCurForumId, mCurPage).then(function (res) {
+                HiPDA.getThreadsFromForum(mCurForumId, mCurPage,mSort).then(function (res) {
                     mPageDict[mCurPage] = { state: "loaded", data: res };
                     mTotalPage = res.totalPage;
                     var info = document.getElementById("pageInfo");
@@ -177,7 +178,7 @@
     });
 
     function getPage(pageNum) {
-        return HiPDA.getThreadsFromForum(mCurForumId, pageNum);
+        return HiPDA.getThreadsFromForum(mCurForumId, pageNum,mSort);
     }
     function handle(index, res) {
         if (index == mEndPage + 1 && index <= mCurPage + gPreNum) {
@@ -246,6 +247,9 @@
     }
 
     function renderPage(res, pageNum, isBefore) {
+        if(pageNum == mTotalPage){
+            document.getElementById("loadingIcon").style.display = "none";
+        }
         var pageTmp = new KingoJS.Template("#pageTemplate");
         var pageList = document.getElementById("pageList");
         pageTmp.render({ pagelabel: "pagelabel", pageNum: pageNum, pageId: "page" + pageNum }).then(function (page) {

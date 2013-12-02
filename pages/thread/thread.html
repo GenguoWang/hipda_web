@@ -51,6 +51,12 @@
                     <li id="dialogTitle" class="ui-li ui-li-static ui-btn-up-e ui-first-child">请选择</li>
                     <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d">
                         <div class="ui-btn-inner ui-li">
+                            <div class="ui-btn-text"><a id="cmdAddToFav" href="javascript:void(0)" class="ui-link-inherit">收藏本帖</a></div>
+                            <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
+                        </div>
+                    </li>
+                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d">
+                        <div class="ui-btn-inner ui-li">
                             <div class="ui-btn-text"><a id="cmdReplyPost" href="javascript:void(0)" class="ui-link-inherit">回复</a></div>
                             <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
                         </div>
@@ -77,6 +83,9 @@
             <a href="javascript:void(0)" id="btnReply" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" data-wrapperels="span"><span class="ui-btn-inner"><span class="ui-btn-text">回复</span><span class="ui-icon ui-icon-edit ui-icon-shadow">&nbsp;</span></span></a>
         </div>
         <div id="pageList"></div>
+        <div id="loadingIcon" style="text-align:center;widht:100%;">
+            <span class="loading style-1"></span>
+        </div>
     </div>
 </body>
 </html>

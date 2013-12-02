@@ -48,7 +48,7 @@
                 handleInvoke(callback,xmlhttp.responseText);
             }
         }
-        xmlhttp.open("POST","http://blog.hifiwiki.net/hipda/notify.php",true);
+        xmlhttp.open("POST","http://blog.hifiwiki.net"+Options.domain+"/notify.php",true);
         xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
         var senddata = "args="+encodeURIComponent(args);
         if(Options.cookiestr) senddata += "&cookiestr="+encodeURIComponent(Options.cookiestr)+"&agent="+encodeURIComponent(Options.agent);
@@ -97,7 +97,6 @@
 			
             var nav = KingoJS.Navigation;
             if(detail[0]=="Thread")nav.navigate("/pages/thread/thread.html",{thread:detail[1]});
-			
     	    //var args = ["GotoDetail", JSON.stringify(detail)];
     	    //window.wggexternal.notify(JSON.stringify(args));
     	}

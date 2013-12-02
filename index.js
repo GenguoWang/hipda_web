@@ -7,6 +7,8 @@
         get css() { return localStorage["css"]; },
         set stickthread(value) { localStorage["stickthread"] = value; },
         get stickthread() { return localStorage["stickthread"]; },
+        set sort(value) { localStorage["sort"] = value; },
+        get sort() { return localStorage["sort"]; },
         set backX(value) { localStorage["backX"] = value; },
         get backX() { return localStorage["backX"]; },
         set backY(value) { localStorage["backY"] = value; },

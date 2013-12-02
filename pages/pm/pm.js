@@ -29,6 +29,7 @@
                 }, false);
 
                 HiPDA.getPM(mCurUid).then(function (data) {
+                    document.getElementById("loadingIcon").style.display = "none";
                     var tmp = new KingoJS.Template("#pmTemplate");
                     var pmList = document.getElementById("pmList");
                     for (var i = data.pm.length - 1; i >= 0; i--) {
@@ -42,6 +43,7 @@
             } else {
                 document.getElementById("pmFooter").style.display = "none";
                 HiPDA.getPM().then(function (data) {
+                    document.getElementById("loadingIcon").style.display = "none";
                     var tmp = new KingoJS.Template("#pmTemplate");
                     var pmList = document.getElementById("pmList");
                     data.pm.forEach(function (item) {

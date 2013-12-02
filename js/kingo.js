@@ -3,13 +3,12 @@
     var sriptDict = {}
     var pageDict = {}
     var domDict = {}
-    function makeUrl(domain, root, url) {
-        domian = gDomain;
+    function makeUrl(root, url) {
         root = root.substr(0, root.lastIndexOf("/") + 1);
         if (url[0] == "/") {
-            return domain + url;
+            return Options.domain + url;
         } else {
-            return domain+root + url;
+            return Options.domain+root + url;
         }
     }
 
@@ -201,7 +200,7 @@
                         var len = scripts.length;
                         for (var i = 0; i < len; ++i) {
                             if (scripts[i].attributes["src"]) {
-                                var srcUrl = makeUrl("/hipda", location, scripts[i].attributes["src"].value);
+                                var srcUrl = makeUrl(location, scripts[i].attributes["src"].value);
                                 if (sriptDict[srcUrl] == undefined) {
                                     sriptDict[srcUrl] = 1;
                                     var copyNode = document.createElement("script");
@@ -229,7 +228,7 @@
                             var newCss = document.createElement("link");
                             newCss.rel = "stylesheet"
                             newCss.type = "text/css"
-                            newCss.href = makeUrl("/hipda", location, css[i].attributes["href"].value);
+                            newCss.href = makeUrl(location, css[i].attributes["href"].value);
                             css[i].parentNode && css[i].parentNode.removeChild(css[i]);
                             window.document.head.appendChild(newCss);
                         }
