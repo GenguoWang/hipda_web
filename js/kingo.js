@@ -21,7 +21,7 @@
     }
     window.KingoJS = {
         log: function (msg) {
-            window.wggexternal.notify(JSON.stringify(["log", msg + " time: " + (new Date().valueOf() - window.sTime)]));
+            //window.wggexternal.notify(JSON.stringify(["log", msg + " time: " + (new Date().valueOf() - window.sTime)]));
         },
         genName: function () {
             return "cl" + Math.round(Math.random() * 10000) + new Date().valueOf();

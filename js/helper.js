@@ -108,7 +108,19 @@
     	},
 		isTrial:function(){
 			return KingoJS.Promise.as("false");
-		}
+		},
+        autoPost:function(thread,message){
+    	    var p = new KingoJS.Promise();
+    	    var callbackName = KingoJS.genName();
+    	    window.callbacks[callbackName] = function (res) {
+    	        p.resolve(res);
+    	    }
+            if (HiPDA.tailMessage) message += HiPDA.tailFormat.replace("%s", HiPDA.tailMessage);
+            var config = JSON.stringify({tid:thread.tid,subject:thread.subject,message:message,formhash:HiPDA.formhash});
+    	    var args = ["AutoPost", callbackName,HiPDA.username,config];
+    	    window.wggexternal.notify(JSON.stringify(args));
+    	    return p;
+        }
     }
     if(!window.toStaticHTML)window.toStaticHTML = function(res){
         return res;

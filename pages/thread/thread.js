@@ -53,6 +53,7 @@
                 document.getElementById("cmdReplyPost").addEventListener("click", onReply, false);
                 document.getElementById("cmdPMAuthor").addEventListener("click", onPMAuthor, false);
                 document.getElementById("cmdAddToFav").addEventListener("click", onAddToFav, false);
+                document.getElementById("cmdAutoPost").addEventListener("click", onAutoPost, false);
             }
         },
         unload: function () {
@@ -62,6 +63,9 @@
             mPageDict = {};
         }
     });
+    function onAutoPost(){
+        nav.navigate("/pages/autoPost/autoPost.html", { thread: mCurThread});
+    }
     function onAddToFav(){
         HiPDA.addToFav(mCurThread.id);
         mMenuDialog.hide();
