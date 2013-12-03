@@ -299,6 +299,10 @@
                 }.bind(this));
             }
             this.back = function () {
+                if(Options.enableBack != "true"){
+                    history.back();
+                    return;
+                }
                 var len = this.history.length;
                 if (len >= 2) {
                     var curState = this.history.pop();
@@ -309,6 +313,10 @@
                 }
             }
             this.forward = function () {
+                if(Options.enableBack != "true"){
+                    history.forward();
+                    return;
+                }
                 var fState = this.forwardState.pop();
                 if (fState) {
                     this.navigate(fState.location, fState.state, true);
