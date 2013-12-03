@@ -13,6 +13,7 @@
     var mPrefetch;
     var mImageAttach;
     var mSort;
+    var mMenuDialog;
     var nav = KingoJS.Navigation;
     var gPreNum = 1;
     var gHistoryDict = null;
@@ -56,6 +57,9 @@
         document.getElementById("cmdPanel").addEventListener("click", function () {
             togglePanel("forumPanel");
         }, false);
+        document.getElementById("cmdMenu").addEventListener("click", function () {
+            mMenuDialog.show();
+        },false);
     }
     var gTogglePanelScroll;
     function togglePanel(id) {
@@ -86,10 +90,10 @@
         }
     }
     function initNavbar() {
-        document.getElementById("navForum").addEventListener("click", function (e) { nav.clearHistory(); nav.navigate("/pages/home/home.html"); }, false);
-        document.getElementById("navPM").addEventListener("click", function (e) { nav.clearHistory(); nav.navigate("/pages/pm/pm.html"); }, false);
-        document.getElementById("navFavorites").addEventListener("click", function (e) { nav.clearHistory(); nav.navigate("/pages/favorites/favorites.html"); }, false);
-        document.getElementById("navSetting").addEventListener("click", function (e) { nav.clearHistory(); nav.navigate("/pages/setting/setting.html"); }, false);
+        document.getElementById("navForum").addEventListener("click", function (e) { nav.navigate("/pages/home/home.html"); }, false);
+        document.getElementById("navPM").addEventListener("click", function (e) { nav.navigate("/pages/pm/pm.html"); }, false);
+        document.getElementById("navFavorites").addEventListener("click", function (e) { nav.navigate("/pages/favorites/favorites.html"); }, false);
+        document.getElementById("navSetting").addEventListener("click", function (e) { nav.navigate("/pages/setting/setting.html"); }, false);
     }
     function onForumClick(event) {
         HiPDA.defaultForumId = this.forumId;
@@ -128,6 +132,7 @@
     KingoJS.Page.define("/pages/home/home.html", {
         ready: function (element, options, isBack) {
             mSort = Options.sort;
+            mMenuDialog = new KingoJS.UI.Dialog(document.getElementById("dialMenu"));
             if (options === undefined || options.forumId === undefined) {
                 options = { forumId: HiPDA.defaultForumId, title: HiPDA.defaultTitle };
             }
