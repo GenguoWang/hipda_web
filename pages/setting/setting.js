@@ -54,6 +54,14 @@
             document.getElementById("sortText").textContent = "按最后回复排序";
         }
     }
+    function enableBack(){
+        if (Options.enableBack == "true") {
+            Options.enableBack = "false";
+        } else {
+            Options.enableBack = "true";
+        }
+        document.getElementById("enableBackText").textContent = "(请重新载入页面)";
+    }
     KingoJS.Page.define("/pages/setting/setting.html", {
         ready: function (element, options) {
             document.getElementById("logout").addEventListener("click", logout, false);
@@ -62,6 +70,7 @@
             document.getElementById("change").addEventListener("click", change, false);
             document.getElementById("stickthread").addEventListener("click", stickthread, false);
             document.getElementById("sort").addEventListener("click", sort, false);
+            document.getElementById("enableBack").addEventListener("click", enableBack, false);
             if (Options.stickthread == "true") {
                 document.getElementById("stickthreadText").textContent = "隐藏置顶帖";
             } else {
@@ -71,6 +80,11 @@
                 document.getElementById("sortText").textContent = "按最后回复排序";
             } else {
                 document.getElementById("sortText").textContent = "按发帖时间排序";
+            }
+            if (Options.enableBack == "true") {
+                document.getElementById("enableBackText").textContent = "关闭虚拟返回键";
+            } else {
+                document.getElementById("enableBackText").textContent = "使用虚拟返回键";
             }
             initNavbar();
                 if (Options.isTrial === undefined) {

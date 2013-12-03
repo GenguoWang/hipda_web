@@ -13,8 +13,12 @@
         get backX() { return localStorage["backX"]; },
         set backY(value) { localStorage["backY"] = value; },
         get backY() { return localStorage["backY"]; },
+        set enableBack(value) { localStorage["enableBack"] = value; },
+        get enableBack() { return localStorage["enableBack"]; },
         set cookiestr(value) { localStorage["cookiestr"] = value; },
         get cookiestr() { return localStorage["cookiestr"]; },
+        set cookie(value) { localStorage["cookie"] = value; },
+        get cookie() { return localStorage["cookie"]; },
         set agent(value) { localStorage["agent"] = value; },
         get agent() { return localStorage["agent"]; },
 		domain:"/hipda_dev"
@@ -40,6 +44,7 @@
             }
             Options.isLogin = true;
             HiPDA.getForums();
+            nav.clearHistory();
             nav.navigate("/pages/home/home.html", { forumId: HiPDA.defaultForumId });
         });
     }
@@ -51,6 +56,7 @@
             }
             Options.isLogin = true;
             HiPDA.getForums();
+            nav.clearHistory();
             nav.navigate("/pages/home/home.html", { forumId: HiPDA.defaultForumId });
         });
     }
@@ -66,6 +72,9 @@
         var startX;
         var startY;
         var node = document.getElementById("gback");
+        if(Options.enableBack == "true"){
+            node.style.display = "block";    
+        }
         if(Options.backX){
             node.style.left = Options.backX+"px";
         }
@@ -159,7 +168,6 @@
         initGBack();
         if (Options["css"] && Options["css"] == "nomodern") {
             var node = document.getElementById("cssModern");
-            KingoJS.log(node);
             if (node) {
                 node.parentNode && node.parentNode.removeChild(node);
                 localStorage["css"] = "nomodern";

@@ -261,16 +261,28 @@
             this._element = element;
             this.history = [];
             this.forwardState = [];
+            this.clearFlag = false;
+            if(Options.enableBack != "true"){
+                window.onpopstate = function(e){
+                    if(e.state === null) return;
+                    var preState = e.state;
+                    this.navigate(preState.location, preState.state, true);
+                }.bind(this);
+            }
             this.navigate = function (location, state, isBack) {
-                if (!isBack) {
-                    this.forwardState = [];
-                    var len = this.history.length;
-                    if (len > 0)
-                        this.history[len - 1].scrollTop = document.documentElement.scrollTop;
-                }
                 var curState = {
                     location: location,
                     state: state
+                }
+                if (!isBack) {
+                    this.forwardState = [];
+                    if(Options.enableBack != "true"){
+                        if(this.clearFlag){
+                            window.history.replaceState(curState,"","");
+                            this.clearFlag = false;
+                        }
+                        else window.history.pushState(curState,"","");
+                    }
                 }
                 this.history.push(curState);
                 var newElement = this._createPageElement();
@@ -305,13 +317,13 @@
             this.clearHistory = function () {
                 this.history = [];
                 this.forwardState = [];
+                this.clearFlag = true;
             }
             this.canBack = function () {
                 return this.history.length >= 2;
             }
             this._createPageElement = function () {
-                var element = document.createElement("div");
-                element.style.width = "100%";
+                var element = document.createElement("div"); element.style.width = "100%";
                 element.style.height = "100%";
                 return element;
             }
