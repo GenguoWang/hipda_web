@@ -116,8 +116,33 @@
     	        p.resolve(res);
     	    }
             if (HiPDA.tailMessage) message += HiPDA.tailFormat.replace("%s", HiPDA.tailMessage);
-            var config = JSON.stringify({tid:thread.tid,subject:thread.subject,message:message,formhash:HiPDA.formhash});
+            var config = JSON.stringify({tid:thread.id,subject:thread.subject,message:message,formhash:HiPDA.formhash});
     	    var args = ["AutoPost", callbackName,HiPDA.username,config];
+    	    window.wggexternal.notify(JSON.stringify(args));
+    	    return p;
+        },
+        deleteAutoPost:function(id){
+            id = id+"";
+    	    var p = new KingoJS.Promise();
+    	    var callbackName = KingoJS.genName();
+    	    window.callbacks[callbackName] = function (res) {
+    	        p.resolve(res);
+    	    }
+    	    var args = ["DeleteAutoPost", callbackName,HiPDA.username,id];
+    	    window.wggexternal.notify(JSON.stringify(args));
+    	    return p;
+        },
+        showMsg:function(msg){
+            alert(msg);
+        },
+        getAutoList:function(){
+    	    var p = new KingoJS.Promise();
+    	    var callbackName = KingoJS.genName();
+    	    window.callbacks[callbackName] = function (res) {
+                res = JSON.parse(res);
+    	        p.resolve(res);
+    	    }
+    	    var args = ["GetAutoList", callbackName,HiPDA.username];
     	    window.wggexternal.notify(JSON.stringify(args));
     	    return p;
         }

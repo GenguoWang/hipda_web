@@ -51,6 +51,7 @@
                 var resXml = new DOMParser().parseFromString(res, "text/xml");
                 if (res.indexOf("错误") === -1 && res.indexOf("失败") === -1 && res.indexOf("欢迎")!==-1) {
                     HiPDA.username = username;
+                    if(!HiPDA.username){HiPDA.log("error","v1");}
                     HiPDA.log("login");
                     return "success";
                 } else {
@@ -64,6 +65,7 @@
                     var doc = document.implementation.createHTMLDocument("example");
                     doc.documentElement.innerHTML = res;
                     HiPDA.username = doc.querySelector("#header cite a").textContent;
+                    if(!HiPDA.username){HiPDA.log("error","v2");}
                     HiPDA.log("login");
                     return "success";
                 }
@@ -109,6 +111,7 @@
                 doc.documentElement.innerHTML = res;
                 HiPDA.uid = doc.querySelector("#header cite a").getAttribute("href").split("=")[1];
                 HiPDA.username = doc.querySelector("#header cite a").textContent;
+                if(!HiPDA.username){HiPDA.log("error","v3");}
                 HiPDA.formhash = doc.getElementById("umenu").children[7].getAttribute("href").match(/formhash=(\w*)/)[1].trim();
                 return doc;
             });
@@ -119,6 +122,7 @@
                 doc.documentElement.innerHTML = res;
                 HiPDA.uid = doc.querySelector("#header cite a").getAttribute("href").split("=")[1];
                 HiPDA.username = doc.querySelector("#header cite a").textContent;
+                if(!HiPDA.username){HiPDA.log("error","v4");}
                 HiPDA.formhash = doc.getElementById("umenu").children[7].getAttribute("href").match(/formhash=(\w*)/)[1].trim();
                 return doc;
             });
@@ -129,6 +133,7 @@
                 doc.documentElement.innerHTML = res;
                 HiPDA.uid = doc.querySelector("#header cite a").getAttribute("href").split("=")[1];
                 HiPDA.username = doc.querySelector("#header cite a").textContent;
+                if(!HiPDA.username){HiPDA.log("error","v5");}
                 HiPDA.formhash = doc.querySelector("input[name=formhash]").value;
                 HiPDA.hash = doc.querySelector("input[name=hash]").value;
             });
@@ -146,6 +151,7 @@
                     doc.documentElement.innerHTML = res;
                     HiPDA.uid = doc.querySelector("#header cite a").getAttribute("href").split("=")[1];
                     HiPDA.username = doc.querySelector("#header cite a").textContent;
+                    if(!HiPDA.username){HiPDA.log("error","v6");}
                     HiPDA.formhash = doc.getElementById("umenu").children[7].getAttribute("href").match(/formhash=(\w*)/)[1].trim();
                     var list = doc.querySelectorAll("#list_forumoptions tr");
                     var len = list.length;

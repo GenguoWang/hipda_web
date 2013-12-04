@@ -54,6 +54,7 @@
 
         document.addEventListener("scroll", handleScroll, false);
         document.getElementById("cmdNewThread").addEventListener("click", function () { nav.navigate("/pages/newThread/newThread.html", { forumId: mCurForumId }); }, false);
+        document.getElementById("cmdAutoList").addEventListener("click", function () { nav.navigate("/pages/autoList/autoList.html"); }, false);
         document.getElementById("cmdPanel").addEventListener("click", function () {
             togglePanel("forumPanel");
         }, false);
@@ -90,7 +91,7 @@
         }
     }
     function initNavbar() {
-        document.getElementById("navForum").addEventListener("click", function (e) { nav.navigate("/pages/home/home.html"); }, false);
+        document.getElementById("navForum").addEventListener("click", function (e) { nav.clearHistory();nav.navigate("/pages/home/home.html"); }, false);
         document.getElementById("navPM").addEventListener("click", function (e) { nav.navigate("/pages/pm/pm.html"); }, false);
         document.getElementById("navFavorites").addEventListener("click", function (e) { nav.navigate("/pages/favorites/favorites.html"); }, false);
         document.getElementById("navSetting").addEventListener("click", function (e) { nav.navigate("/pages/setting/setting.html"); }, false);

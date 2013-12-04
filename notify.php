@@ -18,6 +18,7 @@
     }
     else if(isset($_POST["cookie"])){
         $cookieName = $_POST["cookie"];
+        $oldName = $cookieName;
         if(!preg_match('/^(?:[a-z0-9_-]|\.(?!\.))+$/iD', $cookieName)){
             echo $cookieName;
             die("bad file");
@@ -69,34 +70,63 @@
         $type = "autopost";
         $name = $args[2];
         $config = json_decode($args[3],true);
-        if(isset($cookieName)){
-            $config["cookieName"] = $cookieName;
+        if($name && $config){
+            if(isset($cookieName)){
+                $newName = $gConfig["taskdir"].$oldName;
+                copy($cookieName,$newName);
+                $config["cookieName"] = $newName;
+            }
+            else{
+                $config["cookiestr"]= $_POST["cookiestr"];
+                $header["agent"]= $_POST["agent"]; 
+            }
+            $config = json_encode($config);
+            $db->prepare("select count(*) as num from task where name = ?");
+            $db->bind_param("s",$name);
+            $cnt = $db->getArray();
+            $cnt = $cnt["num"];
+            if($cnt > 0){
+                echo "已有{$cnt}个自动顶贴,无法再添加";
+            }
+            else{
+                $db->prepare("insert into task (name,type,config,time) values (?, ? , ?, now())");
+                $db->bind_param("sss",$name,$type,$config);
+                $res = $db->insert();
+                if($res)
+                {
+                    echo "success";
+                }
+                else
+                {
+                    echo "error";
+                }
+            }
         }
         else{
-            $config["cookiestr"]= $_POST["cookiestr"];
-            $header["agent"]= $_POST["agent"]; 
+            echo "用户名或参数错误";
         }
-        $config = json_encode($config);
-        $db->prepare("select count(*) as num from task where name = ?");
+    }
+    else if($args[0]=="DeleteAutoPost")
+    {
+        require_once("db.php");
+        $db = new DB();
+        $name = $args[2];
+        $id = intval($args[3]);
+        $db->prepare("delete from task where name = ? and id = ?");
+        $db->bind_param("si",$name,$id);
+        $res = $db->execute();
+        if($res) echo "success";
+        else echo "error";
+    }
+    else if($args[0]=="GetAutoList")
+    {
+        require_once("db.php");
+        $db = new DB();
+        $name = $args[2];
+        $db->prepare("select * from task where name = ?");
         $db->bind_param("s",$name);
-        $cnt = $db->getArray();
-        $cnt = $cnt["num"];
-        if($cnt > 0){
-            echo "已有{$cnt}个自动顶贴,无法再添加";
-        }
-        else{
-            $db->prepare("insert into task (name,type,config,time) values (?, ? , ?, now())");
-            $db->bind_param("sss",$name,$type,$config);
-            $res = $db->insert();
-            if($res)
-            {
-                echo "success";
-            }
-            else
-            {
-                echo "error";
-            }
-        }
+        $res = $db->listArray();
+        echo json_encode($res);
     }
     curl_close($ch);
 ?>

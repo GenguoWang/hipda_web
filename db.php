@@ -56,6 +56,11 @@ class DB
         $stmt = $this->stmt;
         return $stmt->execute(); 
     }
+    function execute()
+    {
+        $stmt = $this->stmt;
+        return $stmt->execute(); 
+    }
     function listArray()
     {
         $stmt = $this->stmt;

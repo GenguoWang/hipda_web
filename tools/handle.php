@@ -1,11 +1,12 @@
 <?php
-require_once("config.php");
-require_once("db.php");
+require_once("../config.php");
+require_once("../db.php");
 $db = new DB();
 $db->prepare("select * from task");
 $tasks = $db->listArray(); 
 $userDict = array();
 foreach($tasks as $task){
+    echo "Handling task ".$task["id"]."\n";
     $config = json_decode($task["config"],true);
     if(!isset($userDict[$task["name"]])){
         $ch = curl_init();  
@@ -27,10 +28,15 @@ foreach($tasks as $task){
         $formhash = trim($arr[1]);
         preg_match('/id="umenu".*\n.*<a.*>(.*)<\/a>/',$output,$arr);
         $username = trim($arr[1]);
-        if(!$username || !$formhash)continue;
-        echo $formhash." ".$username;
+        if(!$username || !$formhash){
+            echo "username or formhash empty,u:$username, f:$formhash\n";
+            continue;
+        };
         $userDict[$username] = array("formhash"=>$formhash);
-        if($username != $task["name"]) continue;
+        if($username != $task["name"]) {
+            echo "name not match,u:$username, t:{$task["name"]}\n";
+            continue;
+        }
         curl_close($ch);
     }
     if($task["type"] == "autopost"){
@@ -57,7 +63,13 @@ foreach($tasks as $task){
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true) ; 
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, true) ; 
         $output = curl_exec($ch) ;  
-        echo iconv('GBK','UTF-8//IGNORE',$output);
+        $res = iconv('GBK','UTF-8//IGNORE',$output);
+        if(stripos($res,"非常感谢")!==false){
+            echo "success\n";
+        }
+        else{
+            echo $res."\n";
+        }
         curl_close($ch);
         sleep(3);
     }

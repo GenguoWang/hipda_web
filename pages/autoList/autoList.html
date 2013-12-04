@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>autoList</title>
+
+    <link href="autoList.css" rel="stylesheet" />
+    <script src="autoList.js"></script>
+</head>
+<body>
+    <div class="autoList" style="padding-top: 44px; padding-bottom: 33px"  tabindex="0">
+        <div id="divTemplate" style="display: none">
+            <ul>
+                <li id="threadItemTemplate" class="ui-btn ui-btn-icon-right ui-li ui-btn-up-c">
+                    <div class="ui-btn-inner ui-li">
+                        <div class="ui-btn-text"><a href="javascript:void(0)" class="nd-subject ui-link-inherit" data-win-bind="textContent:subject"></a></div>
+                    </div>
+                    <a href="javascript:void(0)" class="nd-delete ui-li-link-alt ui-btn ui-btn-up-c ui-btn-icon-notext">
+                        <span class="ui-btn-inner">
+                            <span class="ui-btn-text"></span>
+                            <span class="ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all ui-btn-icon-notext">
+                                <span class="ui-btn-inner">
+                                    <span class="ui-btn-text"></span>
+                                    <span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span>
+                                </span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="ui-header ui-bar-a ui-header-fixed slidedown ui-panel-content-fixed-toolbar ui-panel-content-fixed-toolbar-position-left" role="banner">
+            <h1 class="ui-title" role="heading" aria-level="1">自动定贴列表</h1>
+        </div>
+        <ul class="threadList ui-listview" id="threadList"></ul>
+        <div id="loadingIcon" style="text-align:center;widht:100%;">
+            <span class="loading style-1"></span>
+        </div>
+    </div>
+</body>
+</html>

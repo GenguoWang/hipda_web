@@ -5,12 +5,15 @@
         document.getElementById("navForum").addEventListener("click", function (e) { nav.navigate("/pages/home/home.html"); }, false);
         document.getElementById("navPM").addEventListener("click", function (e) { nav.navigate("/pages/pm/pm.html"); }, false);
         document.getElementById("navFavorites").addEventListener("click", function (e) { nav.navigate("/pages/favorites/favorites.html"); }, false);
-        document.getElementById("navSetting").addEventListener("click", function (e) { nav.navigate("/pages/setting/setting.html"); }, false);
+        document.getElementById("navSetting").addEventListener("click", function (e) { nav.clearHistory();nav.navigate("/pages/setting/setting.html"); }, false);
     }
     function logout() {
         HiPDA.logout().then(function () {
             localStorage["username"] = "";
             localStorage["password"] = "";
+            Options.cookie = "";
+            Options.cookiestr = "";
+            Options.agent = "";
             nav.clearHistory();
             nav.navigate("/pages/login/login.html");
         });
