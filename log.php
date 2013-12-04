@@ -13,6 +13,8 @@
     if(isset($_POST["message"]))$message = $_POST["message"];
     else $_POST["message"] = "";
     $db->prepare("insert into log (name,event,time,message) values (?, ? , now(),?)");
+    $name = iconv('GBK','UTF-8//IGNORE',$name);
+    $message = iconv('GBK','UTF-8//IGNORE',$message);
     $db->bind_param("sss",$name,$event,$message);
     $res = $db->insert();
     if($res)
