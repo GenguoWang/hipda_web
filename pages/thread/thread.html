@@ -51,18 +51,6 @@
                     <li id="dialogTitle" class="ui-li ui-li-static ui-btn-up-e ui-first-child">请选择</li>
                     <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d">
                         <div class="ui-btn-inner ui-li">
-                            <div class="ui-btn-text"><a id="cmdAddToFav" href="javascript:void(0)" class="ui-link-inherit">收藏本帖</a></div>
-                            <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
-                        </div>
-                    </li>
-                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d">
-                        <div class="ui-btn-inner ui-li">
-                            <div class="ui-btn-text"><a id="cmdAutoPost" href="javascript:void(0)" class="ui-link-inherit">自动顶贴</a></div>
-                            <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
-                        </div>
-                    </li>
-                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d">
-                        <div class="ui-btn-inner ui-li">
                             <div class="ui-btn-text"><a id="cmdReplyPost" href="javascript:void(0)" class="ui-link-inherit">回复</a></div>
                             <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
                         </div>
@@ -82,11 +70,55 @@
                 </ul>
             </div>
         </div>
+        <!--menu dialog-->
+        <div id="dialMenu" style="display: none" class="popup-container" tabindex="0">
+            <div class="ui-popup ui-body-d ui-overlay-shadow ui-corner-all">
+                <ul style="min-width: 210px;" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+                    <li id="dialogTitle" class="ui-li ui-li-static ui-btn-up-e ui-first-child">菜单</li>
+                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d">
+                        <div class="ui-btn-inner ui-li">
+                            <div class="ui-btn-text"><a id="btnReply" href="javascript:void(0)" class="ui-link-inherit">回复</a></div>
+                            <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
+                        </div>
+                    </li>
+                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d">
+                        <div class="ui-btn-inner ui-li">
+                            <div class="ui-btn-text"><a id="cmdAddToFav" href="javascript:void(0)" class="ui-link-inherit">收藏本帖</a></div>
+                            <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
+                        </div>
+                    </li>
+                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d">
+                        <div class="ui-btn-inner ui-li">
+                            <div class="ui-btn-text"><a id="cmdAutoPost" href="javascript:void(0)" class="ui-link-inherit">自动顶贴</a></div>
+                            <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
+                        </div>
+                    </li>
+                    <!--
+                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d">
+                        <div class="ui-btn-inner ui-li">
+                            <div class="ui-btn-text"><a id="cmdRefresh" href="javascript:void(0)" class="ui-link-inherit">刷新</a></div>
+                            <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
+                        </div>
+                    </li>
+                    -->
+                    <li class="ui-btn ui-li ui-btn-up-d">
+                        <div class="ui-grid-c">
+                            <div class="ui-block-a" style="margin-right:0;"><div id="cmdGotoFirst" class="menu-cmd ui-bar-e">First</div></div>
+                            <div class="ui-block-b" style="margin-right:0;"><div id="cmdGotoLast" class="menu-cmd ui-bar-e">Last</div></div>
+                            <div class="ui-block-c" style="margin-right:0;">
+                                <input type="text" id="txtToPage" style="width: 70px; height: 2em; display: block; border: none;"/>
+                            </div>
+                            <div class="ui-block-d" style="margin-right:0;"><div id="cmdGotoPage" class="menu-cmd ui-bar-e">Go</div></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
         <div class="ui-header ui-bar-a ui-header-fixed slidedown ui-panel-content-fixed-toolbar ui-panel-animate ui-panel-content-fixed-toolbar-closed" role="banner">
             <h1 class="ui-title" role="heading" aria-level="1" id="threadSubject"></h1>
             <div id="pageInfo"></div>
-            <a href="javascript:void(0)" id="btnReply" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" data-wrapperels="span"><span class="ui-btn-inner"><span class="ui-btn-text">回复</span><span class="ui-icon ui-icon-edit ui-icon-shadow">&nbsp;</span></span></a>
+            <a href="javascript:void(0)" id="cmdMenu" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" data-wrapperels="span"><span class="ui-btn-inner"><span class="ui-btn-text">菜单</span><span class="ui-icon ui-icon-grid ui-icon-shadow">&nbsp;</span></span></a>
         </div>
         <div id="pageList"></div>
         <div id="loadingIcon" style="text-align:center;widht:100%;">

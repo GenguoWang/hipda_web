@@ -53,13 +53,35 @@
     function initListener() {
 
         document.addEventListener("scroll", handleScroll, false);
-        document.getElementById("cmdNewThread").addEventListener("click", function () { nav.navigate("/pages/newThread/newThread.html", { forumId: mCurForumId }); }, false);
+        document.getElementById("cmdNewThread").addEventListener("click", function () { nav.navigate("/pages/newThread/newThread.html", { forumId: mCurForumId}); }, false);
         document.getElementById("cmdAutoList").addEventListener("click", function () { nav.navigate("/pages/autoList/autoList.html"); }, false);
         document.getElementById("cmdPanel").addEventListener("click", function () {
             togglePanel("forumPanel");
         }, false);
         document.getElementById("cmdMenu").addEventListener("click", function () {
             mMenuDialog.show();
+        },false);
+        document.getElementById("cmdGotoLast").addEventListener("click", function () {
+            nav.clearHistory();
+            nav.navigate("/pages/home/home.html",{forumId:mCurForumId,pageNum:mTotalPage});
+        },false);
+        document.getElementById("cmdGotoFirst").addEventListener("click", function () {
+            nav.clearHistory();
+            nav.navigate("/pages/home/home.html",{forumId:mCurForumId,pageNum:1});
+        },false);
+        document.getElementById("cmdGotoPage").addEventListener("click", function () {
+            var toPage = document.getElementById("txtToPage").value.trim();
+            if(!toPage) {
+                Helper.showMsg("页码不能为空");
+                return;
+            }
+            toPage = parseInt(toPage);
+            if(toPage<1 || toPage > mTotalPage) {
+                Helper.showMsg("页码无效");
+                return;
+            }
+            nav.clearHistory();
+            nav.navigate("/pages/home/home.html",{forumId:mCurForumId,pageNum:toPage});
         },false);
     }
     var gTogglePanelScroll;
@@ -160,7 +182,7 @@
                     for (var i = 1; i <= gPreNum; ++i) {
                         mQueue.push(mCurPage + i);
                     }
-                    mPrefetch = new KingoJS.Prefetch(mQueue, mPageDict, mTotalPage, getPage, handle);
+                    mPrefetch = new KingoJS.Prefetch(mQueue, mPageDict, mTotalPage, getPage, handle, mCurPage);
                     mPrefetch.start();
                     initListener();
                 });

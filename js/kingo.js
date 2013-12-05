@@ -323,8 +323,7 @@
                 }
             }
             this.clearHistory = function () {
-                this.history = [];
-                this.forwardState = [];
+                this.history.pop();
                 this.clearFlag = true;
             }
             this.canBack = function () {
@@ -337,11 +336,12 @@
             }
             this._element.appendChild(this._createPageElement())
         },
-        Prefetch: function (forwardQueue, pageDict, totalPage, getPage, handle) {
+        Prefetch: function (forwardQueue, pageDict, totalPage, getPage, handle,firstPage) {
             var state = "stopped";
+            if(firstPage === undefined) firstPage = 1;
             function work() {
                 var prePage = forwardQueue.shift();
-                while (prePage && (prePage > totalPage || prePage < 1))
+                while (prePage && (prePage > totalPage || prePage < firstPage))
                     prePage = forwardQueue.shift();
                 if (!prePage) {
                     state = "stopped";

@@ -16,6 +16,7 @@
     var mQuote;
     var mReply;
     var mMenuDialog;
+    var mMainDialog;
     var nav = KingoJS.Navigation;
     var gMaxImgWidth = window.innerWidth - 50;
     var gClientHeight = window.innerHeight;
@@ -44,16 +45,42 @@
                     for (var i = 1; i <= gPreNum; ++i) {
                         mQueue.push(mCurPage + i);
                     }
-                    mPrefetch = new KingoJS.Prefetch(mQueue, mPageDict, mTotalPage, getPage, handle);
+                    mPrefetch = new KingoJS.Prefetch(mQueue, mPageDict, mTotalPage, getPage, handle,mCurPage);
                     mPrefetch.start();
                 });
                 document.getElementById("threadSubject").textContent = mCurThread.subject;
                 mMenuDialog = new KingoJS.UI.Dialog(document.getElementById("dial"));
+                mMainDialog = new KingoJS.UI.Dialog(document.getElementById("dialMenu"));
                 document.getElementById("cmdQuotePost").addEventListener("click", onQuote, false);
                 document.getElementById("cmdReplyPost").addEventListener("click", onReply, false);
                 document.getElementById("cmdPMAuthor").addEventListener("click", onPMAuthor, false);
                 document.getElementById("cmdAddToFav").addEventListener("click", onAddToFav, false);
                 document.getElementById("cmdAutoPost").addEventListener("click", onAutoPost, false);
+                document.getElementById("cmdMenu").addEventListener("click", function () {
+                    mMainDialog.show();
+                },false);
+                document.getElementById("cmdGotoLast").addEventListener("click", function () {
+                    nav.clearHistory();
+                    nav.navigate("/pages/thread/thread.html",{thread:mCurThread,pageNum:mTotalPage});
+                },false);
+                document.getElementById("cmdGotoFirst").addEventListener("click", function () {
+                    nav.clearHistory();
+                    nav.navigate("/pages/thread/thread.html",{thread:mCurThread,pageNum:1});
+                },false);
+                document.getElementById("cmdGotoPage").addEventListener("click", function () {
+                    var toPage = document.getElementById("txtToPage").value.trim();
+                    if(!toPage) {
+                        Helper.showMsg("页码不能为空");
+                        return;
+                    }
+                    toPage = parseInt(toPage);
+                    if(toPage<1 || toPage > mTotalPage) {
+                        Helper.showMsg("页码无效");
+                        return;
+                    }
+                    nav.clearHistory();
+                    nav.navigate("/pages/thread/thread.html",{thread:mCurThread,pageNum:toPage});
+                },false);
             }
         },
         unload: function () {
