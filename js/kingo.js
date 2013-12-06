@@ -30,57 +30,75 @@
             define: defineClass
         },
         Promise: defineClass(function () {
-            this.resolved = false;
+            this.status = "init";
             this.listener = [];
             this.res = null;
+            this.errorRes = null;
         },
         {
-            resolve: function (res) {
-                if (this.resolved) {
+            error:function(res){
+                if (this.status != "init") {
                     return null;
                 }
-                this.resolved = true;
+                this.status = "error";
+                this.errorRes = res;
+                this._OnEnd();
+            },
+            resolve: function (res) {
+                if (this.status != "init") {
+                    return null;
+                }
+                this.status = "complete";
                 this.res = res;
-                if (res instanceof KingoJS.Promise) {
-                    this.listener.forEach(function (listener) {
-                        if (listener.complete) {
-                            res.then(function (res) {
-                                var arg = listener.complete(res);
+                this._OnEnd();
+            },
+            _OnEnd:function(){
+                if(this.status == "init") return;
+                if(this.status == "complete"){
+                    var res = this.res;
+                    if (res instanceof KingoJS.Promise) {
+                        this.listener.forEach(function (listener) {
+                            if (listener.onComplete) {
+                                res.then(function (res) {
+                                    var arg = listener.onComplete(res);
+                                    listener.promise.resolve(arg);
+                                });
+                            }
+                        });
+                    } else {
+                        this.listener.forEach(function (listener) {
+                            if (listener.onComplete) {
+                                var arg = listener.onComplete(res);
                                 listener.promise.resolve(arg);
-                            });
-                        }
-                    });
-                } else {
+                            }
+                        });
+                    }
+                }
+                else if(this.status == "error"){
+                    var res = this.errorRes;
                     this.listener.forEach(function (listener) {
-                        if (listener.complete) {
-                            var arg = listener.complete(res);
+                        if (listener.onError) {
+                            var arg = listener.onError(res);
                             listener.promise.resolve(arg);
+                        }else{
+                            listener.promise.error(res);
                         }
                     });
                 }
+                this.listener = [];
             },
-            then: function (complete) {
-                if (complete == undefined || typeof complete != "function") {
+            then: function (onComplete,onError,onProgress) {
+                if (onComplete == undefined || typeof onComplete != "function") {
                     return undefined;
                 }
                 var p = new KingoJS.Promise();
-                if (this.resolved) {
-                    if (this.res instanceof KingoJS.Promise) {
-                        this.res.then(function (res) {
-                            var arg = complete(res);
-                            p.resolve(arg);
-                        });
-                    } else {
-                        var arg = complete(this.res);
-
-                        p.resolve(arg);
-                    }
-                } else {
-                    this.listener.push({
-                        complete: complete,
-                        promise: p
-                    });
-                }
+                this.listener.push({
+                    onComplete: onComplete,
+                    onError:onError,
+                    onProgress:onProgress,
+                    promise: p
+                });
+                if (this.status != "init") this._OnEnd();
                 return p;
             }
         },
@@ -476,6 +494,114 @@
                         this.screen.style.display = "none";
                     }
                 })
+        },
+        File:{
+            readAsDataURL: function(file){
+                var fileLoader = new FileReader();
+                var p = new KingoJS.Promise();
+                fileLoader.onload = function() {
+                    p.resolve(this.result);
+                };
+                fileLoader.onabort = function() {
+                    p.error("abort");
+                };
+                fileLoader.onerror = function() {
+                    p.error("error");
+                };  
+                fileLoader.readAsDataURL(file);
+                return p;
+            },
+            dataURItoBlob: function(dataURI) {
+                var binary = atob(dataURI.split(',')[1]);
+                var array = [];
+                for(var i = 0; i < binary.length; i++) {
+                    array.push(binary.charCodeAt(i));
+                }
+                var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+                var uint8arr = new Uint8Array(array);
+                try{
+                    var blob = new Blob([uint8arr], {type: mimeString});
+                    return blob;
+                }catch(e){
+                    //may need to test far more
+                    // TypeError old chrome and FF
+                    window.BlobBuilder = window.BlobBuilder || 
+                                         window.WebKitBlobBuilder || 
+                                         window.MozBlobBuilder || 
+                                         window.MSBlobBuilder;
+                    if(e.name == 'TypeError' && window.BlobBuilder){
+                        var bb = new BlobBuilder();
+                        bb.append([uint8arr.buffer]);
+                        var blob = bb.getBlob(mimeString);
+                        return blob;
+                    }
+                    else if(e.name == "InvalidStateError"){
+                        // InvalidStateError (tested on FF13 WinXP)
+                        var blob = new Blob( [uint8arr.buffer], {type : mimeString});
+                        return blob;
+                    }
+                    else{
+                        throw("No Construct");
+                    }
+                }
+            }
+        },
+        Image:{
+            resizeToBlob: function(file, max_width, max_height, imageEncoding,quality){
+                return Image.resizeToDataURI(file, max_width, max_height, imageEncoding,quality).then(function(dataURI){
+                    KingoJS.File.dataURItoBlob(dataURI);
+                });
+            },
+            resizeToDataURI: function(file, max_width, max_height, imageEncoding,quality){
+                if (file.type.match('image.*')) {
+                    return KingoJS.File.readAsDataURL(file).then(function(result){
+                        var p = new KingoJS.Promise();
+                        var imageObj = new Image();
+                        imageObj.onload = function() {  
+                            if(this.width == 0 || this.height == 0){
+                                p.error("Image is empty");
+                            } else {                
+                                var toWidth = this.width;
+                                var toHeight = this.height;
+                                if(toWidth>max_width){
+                                    toHeight = toHeight*max_width/toWidth;
+                                    toWidth = max_width;
+                                }
+                                if(toHeight>max_height){
+                                    toWidth = toWidth*max_height/toHeight;
+                                    toHeight = max_height;
+                                }
+                                var canvas = document.createElement('canvas');
+                                canvas.width = toWidth;
+                                canvas.height = toHeight;
+                                //canvas.style.visibility   = "hidden";   
+                                //canvas.style.position   = "absolute";   
+                                //document.body.appendChild(canvas);  
+                                var context = canvas.getContext('2d');  
+                                context.clearRect(0,0,toWidth,toHeight);
+                                context.drawImage(imageObj, 0, 0, this.width, this.height, 0, 0, toWidth, toHeight);
+                                //var blob = dataURItoBlob(canvas.toDataURL(imageEncoding,quality));
+                                var blob = canvas.toDataURL(imageEncoding,quality);
+                                //document.body.removeChild(canvas);  
+                                p.resolve(blob);
+                            }       
+                        }
+                        imageObj.onabort = function() {
+                            p.error("Image loading abort");
+                        };
+
+                        imageObj.onerror = function() {
+                            p.error("Image loading error");
+                        };
+                        imageObj.src = result;
+                        return p;
+                    });
+                } else {
+                    var p = new KingoJS.Promise();
+                    p.error("Not image!");
+                    return p;
+                }
+            }
         }
     }
 

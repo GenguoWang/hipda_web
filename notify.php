@@ -1,5 +1,7 @@
 <?php
     require_once("config.php");
+    require_once("db.php");
+    require_once("functions.php");
     header("Content-type: text/plain; charset=utf-8");
     /*
     $ch = curl_init("http://www.hi-pda.com/forum/") ;  
@@ -54,6 +56,28 @@
         echo iconv('GBK','UTF-8//IGNORE',$output);
         //echo $output;
     }
+    else if($args[0]=="HttpPostFile"){
+        $url = $args[2];
+        $fields = array();
+        $ps = json_decode($args[3],true);
+        foreach($ps as $item){
+            $fields[$item["Key"]] = iconv('UTF-8','GBK//IGNORE',$item["Value"]);
+        }
+        $name = $_FILES[$args[4]]["tmp_name"];
+        $img = resize_image($name,1024,1024);
+        $tmpfname = tempnam("/tmp", "img");
+        $tmpfname.= ".jpg";
+        imagejpeg($img,$tmpfname,80);
+        $fields[$args[4]] = "@".$tmpfname.';type=image/jpeg';
+        curl_setopt($ch, CURLOPT_URL,$url) ;  
+        curl_setopt($ch, CURLOPT_POST,count($fields)) ; 
+        curl_setopt($ch, CURLOPT_POSTFIELDS,$fields); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true) ; 
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, true) ; 
+        $output = curl_exec($ch) ;  
+        echo $output;
+        //echo iconv('GBK','UTF-8//IGNORE',$output);
+    }
     else if($args[0]=="LoadPage")
     {
         $path = $args[2];
@@ -65,7 +89,6 @@
     }
     else if($args[0]=="AutoPost")
     {
-        require_once("db.php");
         $db = new DB();
         $type = "autopost";
         $name = $args[2];
@@ -108,7 +131,6 @@
     }
     else if($args[0]=="DeleteAutoPost")
     {
-        require_once("db.php");
         $db = new DB();
         $name = $args[2];
         $id = intval($args[3]);
@@ -120,7 +142,6 @@
     }
     else if($args[0]=="GetAutoList")
     {
-        require_once("db.php");
         $db = new DB();
         $name = $args[2];
         $db->prepare("select * from task where name = ?");

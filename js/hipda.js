@@ -104,6 +104,32 @@
                 KingoJS.log && KingoJS.log(e.message);
             }
         }
+        this.uploadImageFile = function (file) {
+            try {
+                if (HiPDA.hash && HiPDA.uid) {
+                    var ps = [];
+                    ps.push({ Key: "uid", Value: HiPDA.uid });
+                    ps.push({ Key: "hash", Value: HiPDA.hash });
+                    return httpClient.httpPostFileField(postImageUrl, ps, "Filedata", file).then(function (res) {
+                        if (res.match(/(.*\|){3}/)) return res.split("|")[2];
+                        else return "error";
+                    });
+                } else {
+                    return HiPDA.getHash().then(function () {
+                        var ps = [];
+                        ps.push({ Key: "uid", Value: HiPDA.uid });
+                        ps.push({ Key: "hash", Value: HiPDA.hash });
+                        return httpClient.httpPostFileField(postImageUrl, ps, "Filedata", file).then(function (res) {
+                            if (res.match(/(.*\|){3}/)) return res.split("|")[2];
+                            else return "error";
+                        });
+                    });
+                }
+            }
+            catch (e) {
+                KingoJS.log && KingoJS.log(e.message);
+            }
+        }
         this.getForum = function (fid, page,sort) {
             if(!sort) sort = "lastpost";
             return httpClient.httpGet(forumUrl + "?fid=" + fid + "&orderby="+sort+"&page=" + page + "&seed=" + Math.random()).then(function (res) {

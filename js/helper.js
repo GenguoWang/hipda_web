@@ -34,6 +34,38 @@
             var args = ["HttpPostFile", callbackName, url, JSON.stringify(ps),filename,filetype,fieldname];
             window.wggexternal.notify(JSON.stringify(args));
             return p;
+        },
+        this.httpPostFileField = function (url, ps, fieldname, file) {
+            var p = new KingoJS.Promise();
+            var callbackName = KingoJS.genName();
+            window.callbacks[callbackName] = function (res) {
+                p.resolve(res);
+            }
+            var args = ["HttpPostFile", callbackName, url, JSON.stringify(ps),fieldname];
+            var xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                    handleInvoke(callbackName,xmlhttp.responseText);
+                }
+            }
+            xmlhttp.open("POST","http://blog.hifiwiki.net"+Options.domain+"/notify.php",true);
+            var oForm = new FormData();
+            console.log(fieldname);
+            console.log(file);
+            oForm.append(fieldname,file);
+            oForm.append("args",JSON.stringify(args));
+            if(Options.cookiestr) {
+                oForm.append("cookiestr",Options.cookiestr);
+                oForm.append("agent",Options.agent);
+            }
+            else{
+                if(!Options.cookie) Options.cookie = new Date().valueOf()+""+Math.round((Math.random(10000)*10000));
+                oForm.append("cookie",Options.cookie);
+            }
+            xmlhttp.send(oForm);
+            return p;
         }
     }
     window.HttpHandle = HttpHandle;
