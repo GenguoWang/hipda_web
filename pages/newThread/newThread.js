@@ -30,15 +30,21 @@
     }
     function tryUpImage(){
         if(this.files.length>0){
+            document.getElementById("upLoading").style.display = "block";
             HiPDA.uploadImageFile(this.files[0]).then(function (res) {
                 if (res != "error" && parseInt(res) > 0) {
                     mImageAttach = res;
                     var messageNode = document.querySelector("textarea[name='message']");
                     messageNode.value += "\n[attachimg]" + res + "[/attachimg]";
+                    document.getElementById("upLoading").style.display = "none";
                 }
                 else{
                     Helper.showMsg("上传失败"+res);
+                    document.getElementById("upLoading").style.display = "none";
                 }
+            },function(error){
+                Helper.showMsg("发生错误:"+error);
+                document.getElementById("upLoading").style.display = "none";
             });
         }
     }

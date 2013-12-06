@@ -114,3 +114,11 @@
     padding:0.4em 15px;
     height:1.2em;
 }
+.loading-inline{
+    position:absolute;
+    left:111%;
+    top:5px;
+}
+.loading-inline .loading{
+    border-width:10px;
+}

@@ -20,8 +20,10 @@
             <div class="ui-controlgroup-controls">
                 <a href="javascript:void(0)" id="btnNewThread" title="Add" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-notext ui-first-child ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text">Add</span><span class="ui-icon ui-icon-check ui-icon-shadow">&nbsp;</span></span></a>
                 <a href="javascript:void(0)" id="btnCancelNewThread" title="Delete" class="ui-btn ui-btn-up-b ui-shadow ui-btn-corner-all ui-btn-icon-notext"><span class="ui-btn-inner"><span class="ui-btn-text">Delete</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a>
-                <a href="javascript:void(0)" id="btnTakePhoto" title="More" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-notext ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text">More</span><span class="ui-icon icon-camera ui-icon-shadow">&nbsp;</span></span></a>
-                <a href="javascript:void(0)" id="btnChoosePhoto" title="More" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-notext ui-last-child ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text">More</span><span class="ui-icon icon-photo ui-icon-shadow">&nbsp;</span></span></a>
+                <a style="display:none" href="javascript:void(0)" id="btnTakePhoto" title="More" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-notext ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text">More</span><span class="ui-icon icon-camera ui-icon-shadow">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" style="position:relative" id="btnChoosePhoto" title="More" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-notext ui-last-child ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text">More</span><span class="ui-icon icon-photo ui-icon-shadow">&nbsp;</span></span>
+                    <div id="upLoading" class="loading-inline" style="display:none"><span class="loading style-3"></span></div>
+                </a>
             </div>
         </div>
         <input id="upImage" type="file" name="image" style="visibility:hidden;position:absolute;"/>
