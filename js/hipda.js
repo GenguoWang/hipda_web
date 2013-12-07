@@ -86,7 +86,7 @@
                     ps.push({ Key: "hash", Value: HiPDA.hash });
                     return httpClient.httpPostFile(postImageUrl, ps, filename, filetype, "Filedata", buffer).then(function (res) {
                         if (res.match(/(.*\|){3}/)) return res.split("|")[2];
-                        else return "error";
+                        else return res;
                     });
                 } else {
                     return HiPDA.getHash().then(function () {
@@ -95,7 +95,7 @@
                         ps.push({ Key: "hash", Value: HiPDA.hash });
                         return httpClient.httpPostFile(postImageUrl, ps, filename, filetype, "Filedata", buffer).then(function (res) {
                             if (res.match(/(.*\|){3}/)) return res.split("|")[2];
-                            else return "error";
+                            else return res;
                         });
                     });
                 }

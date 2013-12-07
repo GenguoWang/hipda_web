@@ -64,11 +64,29 @@
             $fields[$item["Key"]] = iconv('UTF-8','GBK//IGNORE',$item["Value"]);
         }
         $name = $_FILES[$args[4]]["tmp_name"];
-        $img = resize_image($name,1024,1024);
-        $tmpfname = tempnam("/tmp", "img");
-        $tmpfname.= ".jpg";
-        imagejpeg($img,$tmpfname,80);
-        $fields[$args[4]] = "@".$tmpfname.';type=image/jpeg';
+        $mime = $_FILES[$args[4]]["type"];
+        $size = $_FILES[$args[4]]["size"];
+        if($mime=="image/jpeg" || $mime == "image/png"){
+            $img = resize_image($name,1024,1024);
+            $tmpfname = tempnam("/tmp", "img");
+            $tmpfname.= ".jpg";
+            imagejpeg($img,$tmpfname,80);
+            $fields[$args[4]] = "@".$tmpfname.';type=image/jpeg';
+        }
+        else if($size > 350*1024){
+            die("not supported size");
+        }
+        else if($mime=="image/gif"){
+            rename($name,$name.".gif");
+            $fields[$args[4]] = "@".$name.'.gif;type=image/gif';
+        }
+        else if($mime=="image/bmp"){
+            rename($name,$name.".bmp");
+            $fields[$args[4]] = "@".$name.'.bmp;type=image/bmp';
+        }
+        else{
+            die("not supported type");
+        }
         curl_setopt($ch, CURLOPT_URL,$url) ;  
         curl_setopt($ch, CURLOPT_POST,count($fields)) ; 
         curl_setopt($ch, CURLOPT_POSTFIELDS,$fields); 

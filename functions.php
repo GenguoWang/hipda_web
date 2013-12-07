@@ -1,6 +1,9 @@
 <?php
-function resize_image($file, $w, $h, $crop=FALSE) {
-    list($width, $height) = getimagesize($file);
+function resize_image($file,$w, $h, $crop=FALSE,$mime="") {
+    $info = getimagesize($file);
+    $width = $info[0];
+    $height = $info[1];
+    if(!$mime) $mime = $info["mime"];
     $r = $width / $height;
     $newwidth = $width;
     $newheight = $height;
@@ -23,7 +26,9 @@ function resize_image($file, $w, $h, $crop=FALSE) {
             }
         }
     }
-    $src = imagecreatefromjpeg($file);
+    if($mime=="image/jpeg")$src = imagecreatefromjpeg($file);
+    else if($mime=="image/png")$src = imagecreatefrompng($file);
+    else $src = imagecreatefromjpeg($file);
     $dst = imagecreatetruecolor($newwidth, $newheight);
     imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
     return $dst;
