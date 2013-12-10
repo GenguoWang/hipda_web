@@ -287,6 +287,10 @@
                     this.navigate(preState.location, preState.state, true);
                 }.bind(this);
             }
+            this.replacePage = function (location, state, isBack) {
+                this.clearHistory();
+                this.navigate(location, state, isBack);
+            }
             this.navigate = function (location, state, isBack) {
                 var curState = {
                     location: location,

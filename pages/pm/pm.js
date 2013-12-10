@@ -67,7 +67,7 @@
         try {
             var message = document.getElementById("txtReplyPM").value;
             HiPDA.replayPM(mCurUid, message).then(function (res) {
-                nav.navigate("/pages/pm/pm.html", { uid: mCurUid });
+                nav.replacePage("/pages/pm/pm.html", { uid: mCurUid });
             });
         } catch (e) {
             KingoJS.log && KingoJS.log(e.message);

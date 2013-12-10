@@ -17,15 +17,34 @@
         var pmUrl = baseUrl + "pm.php";
         var avatarUrl = baseUrl + "uc_server/data/avatar/";
         var httpClient = new HttpHandle();
+        var permissionDict = {
+            "1": { "role": "管理猿", "perm": "allow" },
+            "2": { "role": "超级版主", "perm": "allow" },
+            "3": { "role": "版主", "perm": "allow" },
+            "4": { "role": "不能发言的群众", "perm": "allow" },
+            "5": { "role": "无法访问的群众", "perm": "deny" },
+            "6": { "role": "非法IP的群众", "perm": "deny" },
+            "7": { "role": "游览的群众", "perm": "deny" },
+            "8": { "role": "待验证的群众", "perm": "deny" },
+            "16": { "role": "初级会员", "perm": "allow" },
+            "17": { "role": "初级会员", "perm": "allow" },
+            "18": { "role": "中级会员", "perm": "allow" },
+            "19": { "role": "高级会员", "perm": "allow" },
+            "20": { "role": "超级会员", "perm": "allow" },
+            "30": { "role": "无法访问", "perm": "deny" },
+            "31": { "role": "初级会员", "perm": "allow" },
+            "32": { "role": "商家", "perm": "allow" },
+        };
         this.uid = null;
         this.username = null;
         this.formhash = null;
         this.hash = null;
         this.forum = null;
+        this.permission = null;
         this.defaultForumId = "2";
         this.defaultTitle = "Discovery";
         this.tailMessage = "Web客户端";
-        this.tailFormat = "    [size=1][color=#48d1cc][b][url=http://www.hi-pda.com/forum/viewthread.php?tid=1308131]%s[/url][/b][/color][/size]";
+        this.tailFormat = "    [size=1][color=#48d1cc][url=http://www.hi-pda.com/forum/viewthread.php?tid=1308131]%s[/url][/color][/size]";
         function makeUrl(url) {
             url = url.trim();
             if (url.indexOf("http") === 0) return url;
@@ -44,14 +63,22 @@
             return httpClient.httpPost(logUrl, ps);
         }
         this.login = function (username, password) {
+            this.uid = null;
+            this.username = null;
+            this.formhash = null;
+            this.hash = null;
+            this.forum = null;
+            this.permission = null;
+            this.defaultForumId = "2";
+            this.defaultTitle = "Discovery";
             var ps = [];
             ps.push({ Key: "username", Value: username });
             ps.push({ Key: "password", Value: password });
             return httpClient.httpPost(loginUrl, ps).then(function (res) {
                 var resXml = new DOMParser().parseFromString(res, "text/xml");
-                if (res.indexOf("错误") === -1 && res.indexOf("失败") === -1 && res.indexOf("欢迎")!==-1) {
+                if (res.indexOf("错误") === -1 && res.indexOf("失败") === -1 && res.indexOf("欢迎") !== -1) {
                     HiPDA.username = username;
-                    if(!HiPDA.username){HiPDA.log("error","v1");}
+                    if (!HiPDA.username) { HiPDA.log("error", "v1"); }
                     HiPDA.log("login");
                     return "success";
                 } else {
@@ -168,7 +195,7 @@
             if (HiPDA.forum) {
                 return KingoJS.Promise.as(HiPDA.forum);
             }
-            return httpClient.httpGet(baseUrl + "faq.php?action=grouppermission&searchgroupid=17").then(function (res) {
+            return httpClient.httpGet(baseUrl + "faq.php?action=grouppermission").then(function (res) {
                 var data = {};
                 data.group = [];
                 var group = { title: null, forum: [] };
@@ -177,6 +204,7 @@
                     doc.documentElement.innerHTML = res;
                     HiPDA.uid = doc.querySelector("#header cite a").getAttribute("href").split("=")[1];
                     HiPDA.username = doc.querySelector("#header cite a").textContent;
+                    HiPDA.permission = permissionDict[doc.querySelector(".right").value];
                     if(!HiPDA.username){HiPDA.log("error","v6");}
                     HiPDA.formhash = doc.getElementById("umenu").children[7].getAttribute("href").match(/formhash=(\w*)/)[1].trim();
                     var list = doc.querySelectorAll("#list_forumoptions tr");

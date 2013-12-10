@@ -56,6 +56,9 @@
                 document.getElementById("cmdPMAuthor").addEventListener("click", onPMAuthor, false);
                 document.getElementById("cmdAddToFav").addEventListener("click", onAddToFav, false);
                 document.getElementById("cmdAutoPost").addEventListener("click", onAutoPost, false);
+                document.getElementById("cmdRefresh").addEventListener("click", function () {
+                    nav.replacePage("/pages/thread/thread.html", { thread: mCurThread, pageNum: mCurPage });
+                }, false);
                 document.getElementById("cmdMenu").addEventListener("click", function () {
                     mMainDialog.show();
                 },false);
@@ -95,7 +98,7 @@
     }
     function onAddToFav(){
         HiPDA.addToFav(mCurThread.id);
-        mMenuDialog.hide();
+        mMainDialog.hide();
     }
     function onQuote() {
         HiPDA.getQuote(mCurThread.id, mCurPost.id).then(function (res) {
@@ -222,15 +225,9 @@
                         var m = /(.*)#/;
                         var g = text.match(m);
                         if (g) {
-                            hrefs[i].addEventListener("click", function (e) {
-                                document.querySelector("a[name='" + g[1] + "']").scrollIntoView(true);
-                                e.preventDefault();
-                            }, false);
+                            hrefs[i].addEventListener("click", gotoAnchor, false);
                         } else {
-                            hrefs[i].addEventListener("click", function (e) {
-                                Helper.gotoUrl(this.href);
-                                e.preventDefault();
-                            }, false);
+                            hrefs[i].addEventListener("click", gotoUrl, false);
                         }
                     }
                 });
@@ -267,6 +264,17 @@
                 }
             });
         });
+    }
+    function gotoAnchor(e){
+        var text = this.textContent.trim();
+        var m = /(.*)#/;
+        var g = text.match(m);
+        document.querySelector("a[name='" + g[1] + "']").scrollIntoView(true);
+        e.preventDefault();
+    }
+    function gotoUrl(e){
+        Helper.gotoUrl(this.href);
+        e.preventDefault();
     }
     function resizeImg() {
         var p = this.parentNode;

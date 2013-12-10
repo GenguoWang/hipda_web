@@ -43,7 +43,13 @@
                 return;
             }
             Options.isLogin = true;
-            HiPDA.getForums();
+            HiPDA.getForums().then(function () {
+                if (HiPDA.permission["perm"] != "allow") {
+                    HiPDA.logout();
+                    Helper.showMsg("您是" + HiPDA.permission["role"]+",请使用正常账号访问");
+                    nav.replacePage("/pages/login/login.html");
+                }
+            });
             nav.clearHistory();
             nav.navigate("/pages/home/home.html", { forumId: HiPDA.defaultForumId });
         });

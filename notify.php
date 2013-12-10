@@ -33,6 +33,28 @@
     {
         $url = $args[2];
         $fields = array();
+        if($url== $gConfig["logUrl"]){
+            if(!empty($_SERVER["HTTP_CLIENT_IP"])){
+              $cip = $_SERVER["HTTP_CLIENT_IP"];
+            }
+            elseif(!empty($_SERVER["HTTP_X_FORWARDED_FOR"])){
+              $cip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+            }
+            elseif(!empty($_SERVER["REMOTE_ADDR"])){
+              $cip = $_SERVER["REMOTE_ADDR"];
+            }
+            else{
+              $cip = "unknown";
+            }
+            if(!empty($_SERVER["HTTP_USER_AGENT"])){
+                $cag = $_SERVER["HTTP_USER_AGENT"];
+            }
+            else{
+                $cag = "unknown";
+            }
+            $fields["ip"] = $cip;
+            $fields["agent"] = $cag;
+        };
         $ps = json_decode($args[3],true);
         foreach($ps as $item){
             $fields[$item["Key"]] = iconv('UTF-8','GBK//IGNORE',$item["Value"]);
