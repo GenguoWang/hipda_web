@@ -54,6 +54,7 @@
                 document.getElementById("cmdQuotePost").addEventListener("click", onQuote, false);
                 document.getElementById("cmdReplyPost").addEventListener("click", onReply, false);
                 document.getElementById("cmdPMAuthor").addEventListener("click", onPMAuthor, false);
+                document.getElementById("cmdAddToBlackList").addEventListener("click", onAddToBlackList, false);
                 document.getElementById("cmdAddToFav").addEventListener("click", onAddToFav, false);
                 document.getElementById("cmdAutoPost").addEventListener("click", onAutoPost, false);
                 document.getElementById("cmdRefresh").addEventListener("click", function () {
@@ -99,6 +100,10 @@
     function onAddToFav(){
         HiPDA.addToFav(mCurThread.id);
         mMainDialog.hide();
+    }
+    function onAddToBlackList(){
+        Options.blackList += mCurPost.author+"\n";
+        mMenuDialog.hide();
     }
     function onQuote() {
         HiPDA.getQuote(mCurThread.id, mCurPost.id).then(function (res) {
@@ -203,6 +208,7 @@
             var list = page.querySelector(".postList");
             var pJoin = [];
             res.post.forEach(function (post) {
+                if(HiPDA.isInBlacKList(post.author)) return;
                 var p = tmp.render(post).then(function (div) {
                     new KingoJS.EventHelper.HoldEvent(div, function (e) {
                         mCurPost = this.post;

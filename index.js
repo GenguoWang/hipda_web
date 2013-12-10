@@ -21,8 +21,19 @@
         get cookie() { return localStorage["cookie"]; },
         set agent(value) { localStorage["agent"] = value; },
         get agent() { return localStorage["agent"]; },
+        set blackList(value) { localStorage["blackList"] = value;HiPDA.blackList = value.split("\n"); },
+        get blackList() { return localStorage["blackList"]; },
+        set enableBlackList(value) { 
+            localStorage["enableBlackList"] = value;
+            if(value=="true")HiPDA.enableBlackList = true; 
+            else HiPDA.enableBlackList = false;
+        },
+        get enableBlackList() { return localStorage["enableBlackList"]; },
 		domain:"/hipda_dev"
     };
+    HiPDA.blackList = Options.blackList.split("\n");
+    if(Options.enableBlackList=="true")HiPDA.enableBlackList = true; 
+    else HiPDA.enableBlackList = false;
     try{
         var argList = null;
         var args = window.location.href.split("#")[1];

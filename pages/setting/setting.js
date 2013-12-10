@@ -65,6 +65,15 @@
         }
         document.getElementById("enableBackText").textContent = "(请重新载入页面)";
     }
+    function enableBlackList(){
+        if (Options.enableBlackList == "true") {
+            Options.enableBlackList = "false";
+            document.getElementById("enableBlackListText").textContent = "启用黑名单";
+        } else {
+            Options.enableBlackList = "true";
+            document.getElementById("enableBlackListText").textContent = "禁用黑名单";
+        }
+    }
     KingoJS.Page.define("/pages/setting/setting.html", {
         ready: function (element, options) {
             document.getElementById("logout").addEventListener("click", logout, false);
@@ -74,6 +83,8 @@
             document.getElementById("stickthread").addEventListener("click", stickthread, false);
             document.getElementById("sort").addEventListener("click", sort, false);
             document.getElementById("enableBack").addEventListener("click", enableBack, false);
+            document.getElementById("enableBlackList").addEventListener("click", enableBlackList, false);
+            document.getElementById("blackList").addEventListener("click", function(){nav.navigate("/pages/blackList/blackList.html");}, false);
             if (Options.stickthread == "true") {
                 document.getElementById("stickthreadText").textContent = "隐藏置顶帖";
             } else {
@@ -88,6 +99,11 @@
                 document.getElementById("enableBackText").textContent = "关闭虚拟返回键";
             } else {
                 document.getElementById("enableBackText").textContent = "使用虚拟返回键";
+            }
+            if (Options.enableBlackList == "true") {
+                document.getElementById("enableBlackListText").textContent = "禁用黑名单";
+            } else {
+                document.getElementById("enableBlackListText").textContent = "启用黑名单";
             }
             initNavbar();
                 if (Options.isTrial === undefined) {

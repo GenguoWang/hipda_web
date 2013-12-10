@@ -290,6 +290,7 @@
             KingoJS.log("oo"+Options.stickthread);
             if (pageNum == 1 && Options.stickthread=="true") {
                 res.stickthread.forEach(function (thread) {
+                    if(HiPDA.isInBlacKList(thread.author)) return;
                     var p = tmp.render(thread).then(function (dd) {
                         dd.thread = thread;
                         dd.addEventListener("click", function () {
@@ -301,6 +302,7 @@
                 });
             }
             res.normalthread.forEach(function (thread) {
+                if(HiPDA.isInBlacKList(thread.author)) return;
                 var p = tmp.render(thread).then(function (dd) {
                     dd.thread = thread;
                     dd.addEventListener("click", function () {

@@ -35,6 +35,8 @@
             "31": { "role": "初级会员", "perm": "allow" },
             "32": { "role": "商家", "perm": "allow" },
         };
+        this.blackList = null;
+        this.enableBlackList = null;
         this.uid = null;
         this.username = null;
         this.formhash = null;
@@ -521,6 +523,13 @@
                     return "failed";
                 }
             });
+        }
+        this.isInBlacKList = function(name){
+            if(!this.blackList || !this.enableBlackList) return false;
+            for(var i=0; i<this.blackList.length;++i){
+                if(this.blackList[i] == name) return true;
+            }
+            return false;
         }
         function getAvatarUrl(uid) {
             uid = parseInt(uid);
