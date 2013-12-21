@@ -31,7 +31,8 @@
         get enableBlackList() { return localStorage["enableBlackList"]; },
 		domain:"/hipda_dev"
     };
-    HiPDA.blackList = Options.blackList.split("\n");
+    if(Options.blackList)HiPDA.blackList = Options.blackList.split("\n");
+    else HiPDA.blackList = null;
     if(Options.enableBlackList=="true")HiPDA.enableBlackList = true; 
     else HiPDA.enableBlackList = false;
     try{

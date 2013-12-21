@@ -102,7 +102,8 @@
         mMainDialog.hide();
     }
     function onAddToBlackList(){
-        Options.blackList += mCurPost.author+"\n";
+        if(Options.blackList)Options.blackList += mCurPost.author+"\n";
+        else Options.blackList = mCurPost.author+"\n";
         mMenuDialog.hide();
     }
     function onQuote() {
