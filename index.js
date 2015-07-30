@@ -29,7 +29,8 @@
             else HiPDA.enableBlackList = false;
         },
         get enableBlackList() { return localStorage["enableBlackList"]; },
-		domain:"/hipda_dev"
+		domain:"/hipda",
+baseUrl:"http://45.33.46.27/hipda"
     };
     if(Options.blackList)HiPDA.blackList = Options.blackList.split("\n");
     else HiPDA.blackList = null;

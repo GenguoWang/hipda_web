@@ -50,7 +50,7 @@
                     handleInvoke(callbackName,xmlhttp.responseText);
                 }
             }
-            xmlhttp.open("POST","http://blog.hifiwiki.net"+Options.domain+"/notify.php",true);
+            xmlhttp.open("POST",Options.baseUrl+"/notify.php",true);
             var oForm = new FormData();
             console.log(fieldname);
             console.log(file);
@@ -80,7 +80,7 @@
                 handleInvoke(callback,xmlhttp.responseText);
             }
         }
-        xmlhttp.open("POST","http://blog.hifiwiki.net"+Options.domain+"/notify.php",true);
+        xmlhttp.open("POST",Options.baseUrl+"/notify.php",true);
         xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
         var senddata = "args="+encodeURIComponent(args);
         if(Options.cookiestr) senddata += "&cookiestr="+encodeURIComponent(Options.cookiestr)+"&agent="+encodeURIComponent(Options.agent);
